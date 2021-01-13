@@ -120,5 +120,8 @@
       }
     }
   },
-  "defaultProject": "just-write"
+  "defaultProject": "just-write",
+  "cli": {
+    "analytics": false
+  }
 }
