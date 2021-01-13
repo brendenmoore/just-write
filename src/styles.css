@@ -20,6 +20,7 @@ body {
   font-size: 8em;
   text-align: center;
   margin: 1em 0 .5em 0;
+  font-style: italic;
 }
 .sub-heading {
   font-family: 'Lora', serif;
