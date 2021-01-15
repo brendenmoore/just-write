@@ -1,5 +1,9 @@
-<div class="container flex flex-column">
+<div class="container">
   <div class="document">
-    <textarea placeholder="Hello here is my test text"></textarea>
+    <textarea
+    autosize
+    [(ngModel)]="content"
+    #textarea
+    placeholder="Begin writing..."></textarea>
   </div>
 </div>

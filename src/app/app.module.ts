@@ -10,6 +10,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { WriteComponent } from './write/write.component';
 import { NoteListComponent } from './note-list/note-list.component';
 import { SettingsComponent } from './settings/settings.component';
+import { FormsModule } from '@angular/forms';
+import { AutosizeModule } from 'ngx-autosize';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { SettingsComponent } from './settings/settings.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AutosizeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
