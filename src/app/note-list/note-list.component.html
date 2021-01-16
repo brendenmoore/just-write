@@ -1,1 +1,8 @@
-<p>note-list works!</p>
+<div class="container">
+  <h2>Your Notes:</h2>
+  <ul>
+    <li *ngFor="let note of notes">
+      <a routerLink="/write">{{note.dateCreated | date}}</a>
+    </li>
+  </ul>
+</div>

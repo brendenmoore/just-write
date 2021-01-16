@@ -30,6 +30,13 @@ textarea {
   cursor: pointer;
 }
 
+.upperLeft {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+}
+
 .lowerRight {
   position: fixed;
   bottom: 10px;
