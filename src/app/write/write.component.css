@@ -1,6 +1,6 @@
 .document {
   margin: 25px auto 0;
-  width: 700px;
+  max-width: 800px;
   font-family:'Times New Roman', Times, serif;
   font-size: 19px;
   line-height: 25px;
@@ -10,6 +10,7 @@
 textarea {
   resize: none;
   width: 100%;
+  max-width: 700px;
   border: none;
   outline: none;
   font-family: Georgia, 'Times New Roman', Times, serif;
@@ -19,7 +20,7 @@ textarea {
   padding: 50px;
   background-color: white;
   box-shadow: 2px 2px 4px 0 rgb(49, 46, 46);
-  min-height: 800px;
+  min-height: 700px;
 }
 
 .upperRight {
@@ -27,4 +28,10 @@ textarea {
   top: 10px;
   right: 10px;
   cursor: pointer;
+}
+
+.lowerRight {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
 }

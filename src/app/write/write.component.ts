@@ -9,6 +9,7 @@ import { DOCUMENT } from '@angular/common';
 export class WriteComponent implements OnInit, AfterViewInit {
 
   content = "";
+  words: number = 0;
   fullscreen: boolean = false;
   elem;
 
@@ -55,6 +56,10 @@ export class WriteComponent implements OnInit, AfterViewInit {
       this.document.msExitFullscreen();
     }
     this.fullscreen = false;
+  }
+
+  updateWordCount() {
+    this.words = this.content ? this.content.replace(/(^\s*)|(\s*$)/gi,"").replace(/[ ]{2,}/gi," ").replace(/\n /,"\n").split(" ").length : 0;
   }
 
 }
