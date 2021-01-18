@@ -1,9 +1,9 @@
 <div class="container">
-  <div class="document">
+  <div *ngIf="note" class="document">
     <textarea
     autosize
-    [(ngModel)]="content"
-    (keyup)="updateWordCount()"
+    [(ngModel)]="note.content"
+    (keyup)="onUpdate()"
     #textarea
     placeholder="Begin writing..."></textarea>
   </div>

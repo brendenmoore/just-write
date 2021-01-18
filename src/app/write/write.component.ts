@@ -10,7 +10,7 @@ import { Note } from '../models/note.model';
 })
 export class WriteComponent implements OnInit, AfterViewInit {
 
-  content: string = ''
+  note: Note;
   words: number = 0;
   fullscreen: boolean = false;
   elem;
@@ -19,17 +19,25 @@ export class WriteComponent implements OnInit, AfterViewInit {
   private textareaElement: ElementRef;
 
   constructor(@Inject(DOCUMENT) private document: any,
-              private noteService: NoteService){ }
+              private noteService: NoteService,){ }
 
   ngOnInit(): void {
     this.elem = document.documentElement;
-
+    this.note = this.noteService.getNoteByDateOrCreateNew(new Date());
   }
 
   ngAfterViewInit(): void {
     this.textareaElement.nativeElement.focus();
   }
 
+  onUpdate() {
+    this.updateWordCount();
+    this.noteService.saveNote(this.note);
+  }
+
+  updateWordCount() {
+    this.words = this.note.content ? this.note.content.replace(/(^\s*)|(\s*$)/gi,"").replace(/[ ]{2,}/gi," ").replace(/\n /,"\n").split(" ").length : 0;
+  }
   openFullscreen() {
     if (this.elem.requestFullscreen) {
       this.elem.requestFullscreen();
@@ -62,8 +70,6 @@ export class WriteComponent implements OnInit, AfterViewInit {
     this.fullscreen = false;
   }
 
-  updateWordCount() {
-    this.words = this.content ? this.content.replace(/(^\s*)|(\s*$)/gi,"").replace(/[ ]{2,}/gi," ").replace(/\n /,"\n").split(" ").length : 0;
-  }
+
 
 }

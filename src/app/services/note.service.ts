@@ -16,13 +16,29 @@ export class NoteService {
     return [...this.notes];
   }
 
-  getNoteByDate(date: MyDate) {
-    return this.notes.find(note => this.myDateService.isEqual(note.dateCreated, date));
+  getNoteByDateOrCreateNew(date: Date): Note {
+    const note = this.notes.find(note => this.myDateService.isEqual(note.dateCreated, this.myDateService.createFromDate(date)));
+    if (note) {
+      return note
+    // check if the date being requested is today
+    } else if (this.myDateService.isToday(this.myDateService.createFromDate(date))) {
+      // if so, create a new note for the day
+      return this.addNote();
+    } else {
+      //otherwise note does not exist
+      return null;
+    }
   }
 
-  addNote() {
+  addNote(): Note {
     const note: Note = {dateCreated: this.myDateService.getToday(), content: ""}
     this.notes.push(note);
+    return note;
+  }
+
+  saveNote(updatedNote: Note) {
+    const savedNote = this.notes.find(note => this.myDateService.isEqual(note.dateCreated, updatedNote.dateCreated));
+    savedNote.content = updatedNote.content;
   }
 
   // findById(id: number){
