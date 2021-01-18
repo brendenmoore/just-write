@@ -11,10 +11,10 @@ export class NoteListComponent implements OnInit {
 
   notes: Note[];
 
-  constructor(private noteService: NoteService) { }
+  constructor(public noteService: NoteService) { }
 
   ngOnInit(): void {
-    this.notes = this.noteService.findAll()
+    this.notes = this.noteService.getNotes();
   }
 
 }

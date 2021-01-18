@@ -1,8 +1,9 @@
 <div class="container">
   <h2>Your Notes:</h2>
-  <ul>
+  <ul *ngIf="notes">
     <li *ngFor="let note of notes">
       <a routerLink="/write">{{note.dateCreated | date}}</a>
     </li>
   </ul>
+  <p *ngIf="!notes">No notes yet</p>
 </div>

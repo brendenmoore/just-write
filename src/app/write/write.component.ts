@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NoteService } from '../services/note.service';
+import { Note } from '../models/note.model';
 
 @Component({
   selector: 'app-write',
@@ -9,7 +10,7 @@ import { NoteService } from '../services/note.service';
 })
 export class WriteComponent implements OnInit, AfterViewInit {
 
-  content = "";
+  content: string = ''
   words: number = 0;
   fullscreen: boolean = false;
   elem;
@@ -22,6 +23,7 @@ export class WriteComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.elem = document.documentElement;
+
   }
 
   ngAfterViewInit(): void {

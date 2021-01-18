@@ -1,12 +1,6 @@
-export class Note {
-  id: number;
-  title?: string;
-  content: string;
-  dateCreated: Date;
+import { MyDate } from "./myDate.model";
 
-  constructor(){
-    this.id = Date.now();
-    this.content = "";
-    this.dateCreated = new Date();
-  }
+export interface Note {
+  content: string;
+  dateCreated: MyDate;
 }
