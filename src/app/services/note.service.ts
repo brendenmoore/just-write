@@ -49,9 +49,13 @@ export class NoteService {
 
   addNote(): Note {
     const note: Note = {id: null, dateCreated: this.myDateService.getToday(), content: ""}
-    this.notes.push(note);
-    this.notesUpdated.next([...this.notes]);
-    return note;
+    this.http.post<{message: string}>('http://localhost:3000/api/notes', note)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        this.notes.push(note);
+        this.notesUpdated.next([...this.notes]);
+      });
+      return note;
   }
 
   saveNote(updatedNote: Note) {
