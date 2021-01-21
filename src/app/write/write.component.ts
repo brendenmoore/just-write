@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from 
 import { DOCUMENT } from '@angular/common';
 import { NoteService } from '../services/note.service';
 import { Note } from '../models/note.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-write',
@@ -11,6 +12,7 @@ import { Note } from '../models/note.model';
 export class WriteComponent implements OnInit, AfterViewInit {
 
   note: Note;
+  id: string;
   words: number = 0;
   fullscreen: boolean = false;
   elem;
@@ -19,15 +21,27 @@ export class WriteComponent implements OnInit, AfterViewInit {
   private textareaElement: ElementRef;
 
   constructor(@Inject(DOCUMENT) private document: any,
-              private noteService: NoteService,){ }
+              private noteService: NoteService,
+              private route: ActivatedRoute){ }
 
   ngOnInit(): void {
+    this.noteService.getNotes();
+    this.route.queryParamMap.subscribe(params => {
+      this.id = params.get('id');
+      if(this.id){
+        this.note = this.noteService.getNoteById(this.id);
+      }
+      else{
+        this.note = this.noteService.getNoteByDateOrCreateNew(new Date());
+      }
+    })
     this.elem = document.documentElement;
-    this.note = this.noteService.getNoteByDateOrCreateNew(new Date());
   }
 
   ngAfterViewInit(): void {
-    this.textareaElement.nativeElement.focus();
+    if (this.note) {
+      this.textareaElement.nativeElement.focus();
+    }
   }
 
   onUpdate() {

@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MyDate } from '../models/myDate.model';
+import { Subject } from 'rxjs';
 import { Note } from '../models/note.model';
 import { MyDateService } from './myDate.service';
 
@@ -8,20 +9,36 @@ import { MyDateService } from './myDate.service';
 })
 export class NoteService {
 
-  private notes: Note[] = []
+  private notes: Note[] = [];
+  private notesUpdated = new Subject<Note[]>();
 
-  constructor(private myDateService: MyDateService) { }
+  constructor(private myDateService: MyDateService, private http: HttpClient) { }
 
-  getNotes(): Note[] {
-    return [...this.notes];
+  getNotes() {
+    this.http.get<{message: string, notes: Note[]}>('http://localhost:3000/api/notes')
+      .subscribe((noteData) => {
+        this.notes = noteData.notes;
+        this.notesUpdated.next([...this.notes])
+      });
+  }
+
+  getNoteById(id: string): Note {
+    return this.notes.find(note => note.id === id);
+  }
+
+  getNoteUpdateListener() {
+    return this.notesUpdated.asObservable();
   }
 
   getNoteByDateOrCreateNew(date: Date): Note {
+    this.getNotes();
     const note = this.notes.find(note => this.myDateService.isEqual(note.dateCreated, this.myDateService.createFromDate(date)));
     if (note) {
+      console.log("note found");
       return note
-    // check if the date being requested is today
+      // check if the date being requested is today
     } else if (this.myDateService.isToday(this.myDateService.createFromDate(date))) {
+      console.log("note created")
       // if so, create a new note for the day
       return this.addNote();
     } else {
@@ -31,14 +48,16 @@ export class NoteService {
   }
 
   addNote(): Note {
-    const note: Note = {dateCreated: this.myDateService.getToday(), content: ""}
+    const note: Note = {id: null, dateCreated: this.myDateService.getToday(), content: ""}
     this.notes.push(note);
+    this.notesUpdated.next([...this.notes]);
     return note;
   }
 
   saveNote(updatedNote: Note) {
     const savedNote = this.notes.find(note => this.myDateService.isEqual(note.dateCreated, updatedNote.dateCreated));
     savedNote.content = updatedNote.content;
+    this.notesUpdated.next([...this.notes]);
   }
 
   // findById(id: number){

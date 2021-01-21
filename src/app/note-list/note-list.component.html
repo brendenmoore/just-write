@@ -2,7 +2,7 @@
   <h2>Your Notes:</h2>
   <ul *ngIf="notes">
     <li *ngFor="let note of notes">
-      <a routerLink="/write">{{note.dateCreated.month}}-{{note.dateCreated.date}}-{{note.dateCreated.year}}</a>
+      <a [routerLink]="['/write']" [queryParams]="{id: note.id}">{{note.dateCreated.month}}-{{note.dateCreated.date}}-{{note.dateCreated.year}}</a>
     </li>
   </ul>
   <p *ngIf="!notes">No notes yet</p>
