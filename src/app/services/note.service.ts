@@ -72,7 +72,9 @@ export class NoteService {
   deleteNote(noteId: string) {
     this.http.delete('http://localhost:3000/api/notes/' + noteId)
       .subscribe(() => {
-        console.log("deleted")
+        const updatedNotes = this.notes.filter(note => note.id !== noteId);
+        this.notes = updatedNotes;
+        this.notesUpdated.next([...this.notes]);
       })
   }
 
