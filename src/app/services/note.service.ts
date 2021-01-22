@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Note } from '../models/note.model';
 import { MyDateService } from './myDate.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,18 @@ export class NoteService {
   constructor(private myDateService: MyDateService, private http: HttpClient) { }
 
   getNotes() {
-    this.http.get<{message: string, notes: Note[]}>('http://localhost:3000/api/notes')
-      .subscribe((noteData) => {
-        this.notes = noteData.notes;
+    this.http.get<{message: string, notes: any}>('http://localhost:3000/api/notes')
+    .pipe(map((noteData) => {
+      return noteData.notes.map(note => {
+        return {
+          content: note.content,
+          dateCreated: note.dateCreated,
+          id: note._id
+        }
+      })
+    }))
+    .subscribe((transformedNotes) => {
+        this.notes = transformedNotes;
         this.notesUpdated.next([...this.notes])
       });
   }

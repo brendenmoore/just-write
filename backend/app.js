@@ -1,7 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+const Note = require('./models/note');
 
 const app = express();
+
+mongoose.connect("mongodb+srv://brendenm17:8KaNR5Tl5iYpwkcX@cluster0.c6jzx.mongodb.net/justwrite?retryWrites=true&w=majority")
+  .then(() => {
+    console.log("connected to database!")
+  })
+  .catch(() => {
+    console.log("connection failed.")
+  })
 
 app.use(bodyParser.json());
 
@@ -15,30 +26,27 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/notes", (req, res, next) => {
-  const note = req.body;
+  const note = new Note({
+    content: req.body.content,
+    dateCreated: req.body.dateCreated
+  });
+  note.save();
   console.log(note);
+
   res.status(201).json({
     message: 'Post added successfully'
   });
 });
 
 app.get('/api/notes', (req, res, next) => {
-  const notes = [
-    {
-      id: "fh34798ugfiwe",
-      content: "Test Content from server",
-      dateCreated: {year: 2021, month: 01, date: 18}
-    },
-    {
-      id: "e465r76ih",
-      content: "Test Content from server number 2!",
-      dateCreated: {year: 2021, month: 01, date: 17}
-    }
-  ];
-  res.status(200).json({
-    message: 'Posts fetched successfully!',
-    notes: notes
-  });
+  Note.find()
+    .then(documents => {
+      console.log(documents);
+      res.status(200).json({
+        message: 'Notes fetched successfully!',
+        notes: documents
+      });
+    });
 });
 
 module.exports = app;
