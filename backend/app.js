@@ -31,18 +31,17 @@ app.post("/api/notes", (req, res, next) => {
     title: req.body.title,
     dateCreated: req.body.dateCreated
   });
-  note.save();
-  console.log(note);
-
-  res.status(201).json({
-    message: 'Post added successfully'
+  note.save().then(createdNote => {
+    res.status(201).json({
+      noteId: createdNote._id,
+      message: 'Post added successfully'
+    });
   });
 });
 
 app.get('/api/notes', (req, res, next) => {
   Note.find()
     .then(documents => {
-      console.log(documents);
       res.status(200).json({
         message: 'Notes fetched successfully!',
         notes: documents
@@ -52,7 +51,7 @@ app.get('/api/notes', (req, res, next) => {
 
 app.delete("/api/notes/:id", (req, res, next) => {
   Note.deleteOne({_id: req.params.id}).then(result => {
-    console.log(result)
+    console.log(result);
     res.status(200).json({message: 'Post deleted!'});
   });
 });

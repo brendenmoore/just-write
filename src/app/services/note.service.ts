@@ -60,9 +60,10 @@ export class NoteService {
 
   addNote(): Note {
     const note: Note = {id: null, dateCreated: this.myDateService.getToday(), content: ""}
-    this.http.post<{message: string}>('http://localhost:3000/api/notes', note)
+    this.http.post<{message: string, noteId: string}>('http://localhost:3000/api/notes', note)
       .subscribe(responseData => {
-        console.log(responseData.message);
+        const id = responseData.noteId;
+        note.id = id;
         this.notes.push(note);
         this.notesUpdated.next([...this.notes]);
       });
