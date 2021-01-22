@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Note } from '../models/note.model';
 import { MyDateService } from './myDate.service';
 import { map } from 'rxjs/operators';
+import { MyDate } from '../models/myDate.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +34,8 @@ export class NoteService {
       });
   }
 
-  getNoteById(id: string): Note {
-    return this.notes.find(note => note.id === id);
+  getNoteById(noteId: string) {
+    return this.http.get<{_id: string, title: string, content: string, dateCreated: MyDate}>('http://localhost:3000/api/notes/' + noteId);
   }
 
   getNoteUpdateListener() {
@@ -79,10 +80,9 @@ export class NoteService {
       })
   }
 
-  saveNote(updatedNote: Note) {
-    const savedNote = this.notes.find(note => this.myDateService.isEqual(note.dateCreated, updatedNote.dateCreated));
-    savedNote.content = updatedNote.content;
-    this.notesUpdated.next([...this.notes]);
+  updateNote(noteId: string, dateCreated: MyDate, content: string, title?: string) {
+    const note: Note = { id: noteId, dateCreated: dateCreated, title: title, content: content};
+    return this.http.put('http://localhost:3000/api/notes/' + noteId, note);
   }
 
   // findById(id: number){

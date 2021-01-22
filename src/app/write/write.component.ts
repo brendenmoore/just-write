@@ -12,10 +12,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class WriteComponent implements OnInit, AfterViewInit {
 
   note: Note;
-  id: string;
+  noteId: string;
   words: number = 0;
   fullscreen: boolean = false;
-  elem;
+  saved: boolean = true;
+  elem; // for fullscreen toggle
 
   @ViewChild('textarea')
   private textareaElement: ElementRef;
@@ -27,9 +28,18 @@ export class WriteComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.noteService.getNotes();
     this.route.queryParamMap.subscribe(params => {
-      this.id = params.get('id');
-      if(this.id){
-        this.note = this.noteService.getNoteById(this.id);
+      this.noteId = params.get('id');
+      if(this.noteId){
+        this.noteService.getNoteById(this.noteId).subscribe(noteData => {
+          this.note = {
+            id: noteData._id,
+            title: noteData.title,
+            dateCreated: noteData.dateCreated,
+            content: noteData.content
+          }
+          this.saved = true;
+          this.updateWordCount();
+        });
       }
       else{
         this.note = this.noteService.getNoteByDateOrCreateNew(new Date());
@@ -45,8 +55,14 @@ export class WriteComponent implements OnInit, AfterViewInit {
   }
 
   onUpdate() {
+    this.saved = false;
     this.updateWordCount();
-    this.noteService.saveNote(this.note);
+    this.noteService.updateNote(
+      this.note.id,
+      this.note.dateCreated,
+      this.note.content,
+      this.note.title
+    ).subscribe(result => this.saved = true);
   }
 
   updateWordCount() {
