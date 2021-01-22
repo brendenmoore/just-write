@@ -55,14 +55,16 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
           // if there are no notes yet, add the first one
           if (notes.length === 0) {
             this.noteService.addNote().subscribe(note => {
-              this.note = note
-              console.log(this.note);
+              this.note = note;
             });
           }
           else if (this.dateService.isToday(notes[notes.length-1].dateCreated)) {
             this.note = notes[notes.length-1];
           } else {
-            this.noteService.addNote().subscribe(note => this.note = note);
+            this.noteService.addNote().subscribe(note => {
+              this.note = note;
+              console.log(note)
+            });
           }
           this.isLoading = false;
         });
