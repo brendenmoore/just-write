@@ -12,15 +12,18 @@ import { NoteService } from '../services/note.service';
 export class NoteListComponent implements OnInit {
 
   notes: Note[];
+  isLoading: boolean = false;
   private notesSub: Subscription;
 
   constructor(public noteService: NoteService, private router: Router) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.noteService.getNotes();
     this.notesSub = this.noteService.getNoteUpdateListener()
       .subscribe((notes: Note[]) => {
         this.notes = notes;
+        this.isLoading = false;
       })
   }
 

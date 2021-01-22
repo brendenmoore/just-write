@@ -16,6 +16,7 @@ export class WriteComponent implements OnInit, AfterViewInit {
   words: number = 0;
   fullscreen: boolean = false;
   saved: boolean = true;
+  isLoading: boolean = false;
   elem; // for fullscreen toggle
 
   @ViewChild('textarea')
@@ -29,6 +30,7 @@ export class WriteComponent implements OnInit, AfterViewInit {
     this.noteService.getNotes();
     this.route.queryParamMap.subscribe(params => {
       this.noteId = params.get('id');
+      this.isLoading = true;
       if(this.noteId){
         this.noteService.getNoteById(this.noteId).subscribe(noteData => {
           this.note = {
@@ -38,11 +40,13 @@ export class WriteComponent implements OnInit, AfterViewInit {
             content: noteData.content
           }
           this.saved = true;
+          this.isLoading = false;
           this.updateWordCount();
         });
       }
       else{
         this.note = this.noteService.getNoteByDateOrCreateNew(new Date());
+        this.isLoading = false;
       }
     })
     this.elem = document.documentElement;

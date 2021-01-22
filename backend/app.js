@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Note = require('./models/note');
+const notesRoutes = require("./routes/notes");
 
 const app = express();
 
@@ -25,57 +25,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/api/notes", (req, res, next) => {
-  const note = new Note({
-    content: req.body.content,
-    title: req.body.title,
-    dateCreated: req.body.dateCreated
-  });
-  note.save().then(createdNote => {
-    res.status(201).json({
-      noteId: createdNote._id,
-      message: 'Post added successfully'
-    });
-  });
-});
-
-app.put("/api/notes/:id", (req, res, next) => {
-  const note = new Note({
-    _id: req.body.id,
-    title: req.body.title,
-    content: req.body.content,
-    dateCreated: req.body.dateCreated
-  });
-  Note.updateOne({_id: req.params.id}, note).then(result => {
-    res.status(200).json({message: "Updated Note"});
-  })
-})
-
-app.get('/api/notes', (req, res, next) => {
-  Note.find()
-    .then(documents => {
-      res.status(200).json({
-        message: 'Notes fetched successfully!',
-        notes: documents
-      });
-    });
-});
-
-app.get('/api/notes/:id', (req, res, next) => {
-  Note.findById(req.params.id).then(note => {
-    if (note) {
-      res.status(200).json(note);
-    } else {
-      res.status(404).json({message: "Note not found!"});
-    }
-  })
-})
-
-app.delete("/api/notes/:id", (req, res, next) => {
-  Note.deleteOne({_id: req.params.id}).then(result => {
-    console.log(result);
-    res.status(200).json({message: 'Post deleted!'});
-  });
-});
+app.use("/api/notes", notesRoutes);
 
 module.exports = app;

@@ -11,3 +11,9 @@ ul {
   font-size: 20px;
   line-height: 30px;
 }
+
+app-spinner {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}

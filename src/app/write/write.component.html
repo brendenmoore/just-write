@@ -1,5 +1,6 @@
 <div class="container">
-  <div *ngIf="note" class="document">
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <div *ngIf="!isLoading" class="document">
     <textarea
     autosize
     [(ngModel)]="note.content"

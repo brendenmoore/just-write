@@ -7,6 +7,12 @@
   outline: none;
 }
 
+app-spinner {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
 textarea {
   resize: none;
   width: 100%;

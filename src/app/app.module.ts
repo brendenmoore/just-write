@@ -13,6 +13,7 @@ import { NoteListComponent } from './note-list/note-list.component';
 import { SettingsComponent } from './settings/settings.component';
 import { FormsModule } from '@angular/forms';
 import { AutosizeModule } from 'ngx-autosize';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AutosizeModule } from 'ngx-autosize';
     PageNotFoundComponent,
     WriteComponent,
     NoteListComponent,
-    SettingsComponent
+    SettingsComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
