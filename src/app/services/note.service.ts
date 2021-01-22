@@ -42,33 +42,18 @@ export class NoteService {
     return this.notesUpdated.asObservable();
   }
 
-  getNoteByDateOrCreateNew(date: Date): Note {
-    this.getNotes();
-    const note = this.notes.find(note => this.myDateService.isEqual(note.dateCreated, this.myDateService.createFromDate(date)));
-    if (note) {
-      console.log("note found");
-      return note
-      // check if the date being requested is today
-    } else if (this.myDateService.isToday(this.myDateService.createFromDate(date))) {
-      console.log("note created")
-      // if so, create a new note for the day
-      return this.addNote();
-    } else {
-      //otherwise note does not exist
-      return null;
-    }
-  }
-
-  addNote(): Note {
+  addNote() {
     const note: Note = {id: null, dateCreated: this.myDateService.getToday(), content: ""}
+    const newNoteSubject = new Subject<Note>();
     this.http.post<{message: string, noteId: string}>('http://localhost:3000/api/notes', note)
       .subscribe(responseData => {
         const id = responseData.noteId;
         note.id = id;
         this.notes.push(note);
+        newNoteSubject.next({...note})
         this.notesUpdated.next([...this.notes]);
       });
-      return note;
+    return newNoteSubject.asObservable();
   }
 
   deleteNote(noteId: string) {
@@ -84,22 +69,5 @@ export class NoteService {
     const note: Note = { id: noteId, dateCreated: dateCreated, title: title, content: content};
     return this.http.put('http://localhost:3000/api/notes/' + noteId, note);
   }
-
-  // findById(id: number){
-  //   return this.notes.find(note => note.id === id);
-  // }
-
-  // createNote(): Note {
-  //   let newNote = new Note();
-  //   this.sampleNotes.push(newNote);
-  //   return newNote;
-  // }
-
-  // updateNote(id: number, note: Note): Note {
-  //   let updatedNote = this.findById(id)
-  //   updatedNote.content = note.content;
-  //   updatedNote.title = note.title;
-  //   return updatedNote;
-  // }
 
 }
