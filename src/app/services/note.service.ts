@@ -42,12 +42,8 @@ export class NoteService {
     return this.notesUpdated.asObservable();
   }
 
-  addNote(test?: boolean) {
+  addNote() {
     const note: Note = {id: null, dateCreated: this.myDateService.getToday(), content: ""}
-    //temp
-    if (test) {
-      note.dateCreated.date = 21;
-    }
     const newNoteSubject = new Subject<Note>();
     this.http.post<{message: string, noteId: string}>('http://localhost:3000/api/notes', note)
       .subscribe(responseData => {
