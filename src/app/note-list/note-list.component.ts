@@ -24,4 +24,12 @@ export class NoteListComponent implements OnInit {
       })
   }
 
+  addNote() {
+    this.noteService.addNote();
+  }
+
+  onDelete(id: string) {
+    this.noteService.deleteNote(id);
+  }
+
 }

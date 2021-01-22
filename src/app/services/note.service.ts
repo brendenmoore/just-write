@@ -22,6 +22,7 @@ export class NoteService {
         return {
           content: note.content,
           dateCreated: note.dateCreated,
+          title: note.title,
           id: note._id
         }
       })
@@ -66,6 +67,13 @@ export class NoteService {
         this.notesUpdated.next([...this.notes]);
       });
       return note;
+  }
+
+  deleteNote(noteId: string) {
+    this.http.delete('http://localhost:3000/api/notes/' + noteId)
+      .subscribe(() => {
+        console.log("deleted")
+      })
   }
 
   saveNote(updatedNote: Note) {

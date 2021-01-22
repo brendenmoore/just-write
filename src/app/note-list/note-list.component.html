@@ -1,8 +1,10 @@
 <div class="container">
+  <button (click)="addNote()">Add Note</button>
   <h2>Your Notes:</h2>
   <ul *ngIf="notes">
     <li *ngFor="let note of notes">
       <a [routerLink]="['/write']" [queryParams]="{id: note.id}">{{note.dateCreated.month}}-{{note.dateCreated.date}}-{{note.dateCreated.year}}</a>
+      <button (click)="onDelete(note.id)">Delete</button>
     </li>
   </ul>
   <p *ngIf="!notes">No notes yet</p>

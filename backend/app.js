@@ -28,6 +28,7 @@ app.use((req, res, next) => {
 app.post("/api/notes", (req, res, next) => {
   const note = new Note({
     content: req.body.content,
+    title: req.body.title,
     dateCreated: req.body.dateCreated
   });
   note.save();
@@ -47,6 +48,13 @@ app.get('/api/notes', (req, res, next) => {
         notes: documents
       });
     });
+});
+
+app.delete("/api/notes/:id", (req, res, next) => {
+  Note.deleteOne({_id: req.params.id}).then(result => {
+    console.log(result)
+    res.status(200).json({message: 'Post deleted!'});
+  });
 });
 
 module.exports = app;
