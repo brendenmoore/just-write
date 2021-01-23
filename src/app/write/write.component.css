@@ -31,10 +31,18 @@ textarea {
 input{
   font-size: 25px;
   margin-top: 15px;
+  padding: 3px 9px;
   background: none;
-  border: none;
+  border-color: transparent;
   color: gray;
-  cursor: pointer;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+}
+
+input:hover {
+
+  border-color: rgb(116, 116, 116);
 }
 
 input:focus{
@@ -67,4 +75,18 @@ input:focus{
   position: fixed;
   bottom: 10px;
   right: 10px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .lowerRight {
+    right: 100px;
+    bottom: 20px;
+    color: gray;
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  .lowerRight {
+    right: 60px;
+  }
 }
