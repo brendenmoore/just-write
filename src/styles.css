@@ -33,14 +33,15 @@ body {
   align-self: center;
   font-size: 2.5em;
   font-family: 'Courier New', Courier, monospace;
-  background-color: #f7f3d5;
+  background-color: #f1f1f1;
   box-shadow: 2px 2px 4px 0 rgb(49, 46, 46);
   border-radius: 5px;
 }
 
 .button:hover {
   cursor: pointer;
-  background-color: #fdfdfd;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 4px 0 rgb(49, 46, 46);
 }
 
 .button:active {
