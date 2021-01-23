@@ -14,7 +14,6 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   note: Note;
   noteId: string;
-  words: number = 0;
   fullscreen: boolean = false;
   saved: boolean = true;
   isLoading: boolean = false;
@@ -45,7 +44,6 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.saved = true;
           this.isLoading = false;
-          this.updateWordCount();
         });
       }
       // otherwise load another note by default
@@ -63,21 +61,21 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
           } else {
             this.noteService.addNote().subscribe(note => {
               this.note = note;
-              console.log(note)
             });
           }
           this.isLoading = false;
         });
-
       }
     })
     this.elem = document.documentElement;
   }
 
   ngAfterViewInit(): void {
-    if (this.note) {
-      this.textareaElement.nativeElement.focus();
-    }
+    setTimeout(() => {
+      if (this.note) {
+        this.textareaElement.nativeElement.focus();
+      }
+    }, 1000);
   }
 
   ngOnDestroy(): void {
@@ -88,7 +86,6 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onUpdate() {
     this.saved = false;
-    this.updateWordCount();
     this.noteService.updateNote(
       this.note.id,
       this.note.dateCreated,
@@ -97,9 +94,6 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(result => this.saved = true);
   }
 
-  updateWordCount() {
-    this.words = this.note.content ? this.note.content.replace(/(^\s*)|(\s*$)/gi,"").replace(/[ ]{2,}/gi," ").replace(/\n /,"\n").split(" ").length : 0;
-  }
   openFullscreen() {
     if (this.elem.requestFullscreen) {
       this.elem.requestFullscreen();
