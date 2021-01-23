@@ -1,6 +1,7 @@
 <div class="container">
   <app-spinner *ngIf="isLoading"></app-spinner>
   <div *ngIf="!isLoading && note" class="document">
+    <input type="text" [(ngModel)]="note.title" (keyup)="onUpdate()" [placeholder]="note.dateCreated | myDate">
     <textarea
     autosize
     [(ngModel)]="note.content"

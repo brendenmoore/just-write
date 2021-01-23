@@ -4,7 +4,7 @@
   <app-spinner *ngIf="isLoading"></app-spinner>
   <ul *ngIf="notes">
     <li *ngFor="let note of notes">
-      <a [routerLink]="['/write']" [queryParams]="{id: note.id}">{{note.dateCreated.month}}-{{note.dateCreated.date}}-{{note.dateCreated.year}}</a>
+      <a [routerLink]="['/write']" [queryParams]="{id: note.id}">{{note.dateCreated | myDate}}</a>
       <button (click)="onDelete(note.id)">Delete</button>
     </li>
   </ul>

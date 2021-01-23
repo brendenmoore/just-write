@@ -22,11 +22,21 @@ textarea {
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 20px;
   line-height: 30px;
-  margin: 50px 0;
+  margin: 10px 0;
   padding: 50px;
   background-color: white;
   box-shadow: 2px 2px 4px 0 rgb(49, 46, 46);
   min-height: 700px;
+}
+
+input{
+  width: 100%;
+  font-size: 25px;
+  margin-top: 15px;
+  background: none;
+  border: none;
+  outline: none;
+  color: gray;
 }
 
 .upperRight {

@@ -14,6 +14,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { FormsModule } from '@angular/forms';
 import { AutosizeModule } from 'ngx-autosize';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
+import { MyDatePipe } from './shared/my-date.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
     WriteComponent,
     NoteListComponent,
     SettingsComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    MyDatePipe
   ],
   imports: [
     BrowserModule,
