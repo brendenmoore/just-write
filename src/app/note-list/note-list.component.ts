@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Note } from '../models/note.model';
+import { NavigationService } from '../services/navigation.service';
 import { NoteService } from '../services/note.service';
 
 @Component({
@@ -15,7 +16,10 @@ export class NoteListComponent implements OnInit {
   isLoading: boolean = false;
   private notesSub: Subscription;
 
-  constructor(public noteService: NoteService, private router: Router) { }
+  constructor(public noteService: NoteService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private navBar: NavigationService) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -27,12 +31,25 @@ export class NoteListComponent implements OnInit {
       })
   }
 
+  navigate(note: Note) {
+    this.router.navigate(["/write"], {queryParams: {id: note.id}} );
+    this.navBar.setShowNav(false);
+  }
+
   addNote() {
-    this.noteService.addNote();
+    this.noteService.addNote().subscribe(note=> {
+      this.navigate(note);
+    });
   }
 
   onDelete(id: string) {
     this.noteService.deleteNote(id);
+    this.route.queryParamMap.subscribe(params => {
+      let activeId = params.get('id');
+      if (activeId === id) {
+        this.router.navigate(["/write"]);
+      }
+    })
   }
 
 }

@@ -1,10 +1,10 @@
-<div class="container">
+<div>
   <button (click)="addNote()">Add Note</button>
   <h2>Your Notes:</h2>
   <app-spinner *ngIf="isLoading"></app-spinner>
   <ul *ngIf="notes">
     <li *ngFor="let note of notes">
-      <a [routerLink]="['/write']" [queryParams]="{id: note.id}">{{note.dateCreated | myDate}}</a>
+      <button (click)="navigate(note)">{{note.dateCreated | myDate}}</button>
       <button (click)="onDelete(note.id)">Delete</button>
     </li>
   </ul>

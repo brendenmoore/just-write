@@ -16,6 +16,7 @@ import { AutosizeModule } from 'ngx-autosize';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { MyDatePipe } from './shared/my-date.pipe';
 import { WordCountPipe } from './shared/word-count.pipe';
+import { SideNavComponent } from './shared/side-nav/side-nav.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { WordCountPipe } from './shared/word-count.pipe';
     SettingsComponent,
     SpinnerComponent,
     MyDatePipe,
-    WordCountPipe
+    WordCountPipe,
+    SideNavComponent
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import { NoteService } from '../services/note.service';
 import { Note } from '../models/note.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyDateService } from '../services/myDate.service';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-write',
@@ -26,7 +27,8 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(@Inject(DOCUMENT) private document: any,
               private noteService: NoteService,
               private route: ActivatedRoute,
-              private dateService: MyDateService){ }
+              private dateService: MyDateService,
+              private nav: NavigationService){ }
 
   ngOnInit(): void {
     this.noteService.getNotes();
@@ -82,6 +84,10 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.listener) {
       this.listener.unsubscribe();
     }
+  }
+
+  toggleNav(): void {
+    this.nav.toggleNavState();
   }
 
   onUpdate() {

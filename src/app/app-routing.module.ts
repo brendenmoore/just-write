@@ -6,8 +6,7 @@ import { WriteComponent } from './write/write.component';
 
 const routes: Routes = [
   {path: "", component: LandingComponent},
-  {path: "write", component: WriteComponent},
-  {path: "notes", component: NoteListComponent}
+  {path: "write", component: WriteComponent}
 ];
 
 @NgModule({
