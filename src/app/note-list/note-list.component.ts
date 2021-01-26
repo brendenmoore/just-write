@@ -32,8 +32,9 @@ export class NoteListComponent implements OnInit {
   }
 
   navigate(note: Note) {
-    this.router.navigate(["/write"], {queryParams: {id: note.id}} );
-    this.navBar.setShowNav(false);
+    this.router.navigate(["/write"], {queryParams: {id: note.id}} ).then(onfulfilled => {
+      this.navBar.setShowNav(false);
+    });
   }
 
   addNote() {
