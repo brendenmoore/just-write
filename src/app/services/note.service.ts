@@ -5,6 +5,7 @@ import { Note } from '../models/note.model';
 import { MyDateService } from './myDate.service';
 import { map } from 'rxjs/operators';
 import { MyDate } from '../models/myDate.model';
+import { stringify } from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
@@ -12,26 +13,34 @@ import { MyDate } from '../models/myDate.model';
 export class NoteService {
 
   private notes: Note[] = [];
-  private notesUpdated = new Subject<Note[]>();
+  private notesUpdated = new Subject<{notes: Note[], noteCount: number}>();
 
   constructor(private myDateService: MyDateService, private http: HttpClient) { }
 
-  getNotes() {
-    this.http.get<{message: string, notes: any}>('http://localhost:3000/api/notes')
+  getNotes(notesPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${notesPerPage}&page=${currentPage}`;
+    this.http.get<{message: string, notes: any, maxNotes: number}>('http://localhost:3000/api/notes' + queryParams)
     .pipe(map((noteData) => {
-      return noteData.notes.map(note => {
+      return { notes: noteData.notes.map(note => {
         return {
           content: note.content,
           dateCreated: note.dateCreated,
           title: note.title,
           id: note._id
         }
-      })
+      }), maxNotes: noteData.maxNotes}
     }))
-    .subscribe((transformedNotes) => {
-        this.notes = transformedNotes;
-        this.notesUpdated.next([...this.notes])
+    .subscribe((transformedNotesData) => {
+        this.notes = transformedNotesData.notes;
+        this.notesUpdated.next({
+          notes: [...this.notes],
+          noteCount: transformedNotesData.maxNotes
+        });
       });
+  }
+
+  getMostRecentId() {
+    return this.http.get('http://localhost:3000/api/notes/last');
   }
 
   getNoteById(noteId: string) {
@@ -49,20 +58,13 @@ export class NoteService {
       .subscribe(responseData => {
         const id = responseData.noteId;
         note.id = id;
-        this.notes.push(note);
         newNoteSubject.next({...note})
-        this.notesUpdated.next([...this.notes]);
       });
     return newNoteSubject.asObservable();
   }
 
   deleteNote(noteId: string) {
-    this.http.delete('http://localhost:3000/api/notes/' + noteId)
-      .subscribe(() => {
-        const updatedNotes = this.notes.filter(note => note.id !== noteId);
-        this.notes = updatedNotes;
-        this.notesUpdated.next([...this.notes]);
-      })
+    return this.http.delete('http://localhost:3000/api/notes/' + noteId);
   }
 
   updateNote(noteId: string, dateCreated: MyDate, content: string, title?: string) {

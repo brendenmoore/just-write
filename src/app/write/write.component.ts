@@ -11,7 +11,7 @@ import { NavigationService } from '../services/navigation.service';
   templateUrl: './write.component.html',
   styleUrls: ['./write.component.css']
 })
-export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WriteComponent implements OnInit, AfterViewInit {
 
   note: Note;
   noteId: string;
@@ -19,7 +19,6 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
   saved: boolean = true;
   isLoading: boolean = false;
   elem; // for fullscreen toggle
-  listener; // for handling observables
 
   @ViewChild('textarea')
   private textareaElement: ElementRef;
@@ -31,7 +30,6 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
               private nav: NavigationService){ }
 
   ngOnInit(): void {
-    this.noteService.getNotes();
     this.route.queryParamMap.subscribe(params => {
       this.noteId = params.get('id');
       this.isLoading = true;
@@ -50,23 +48,38 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       // otherwise load another note by default
       else{
-        // check if most recent note is today's
-        this.listener = this.noteService.getNoteUpdateListener().subscribe(notes => {
-          // if there are no notes yet, add the first one
-          if (notes.length === 0) {
+        // load most recent note
+        this.noteService.getMostRecentId().subscribe(id => {
+          console.log(id.toString())
+          this.noteService.getNoteById(id.toString()).subscribe((noteData) => {
+            // check if it is today's and if so load it
+            if(this.dateService.isToday(noteData.dateCreated)) {
+              this.note = {
+                id: noteData._id,
+                title: noteData.title,
+                dateCreated: noteData.dateCreated,
+                content: noteData.content
+              }
+              this.saved = true;
+              this.isLoading = false;
+            }
+            // otherwise create and load a new note
+            else {
+              this.noteService.addNote().subscribe(note => {
+                this.note = note;
+                this.isLoading = false;
+              });
+            }
+          }, error => {
+            // if not found, create a new note
+            console.log(error)
             this.noteService.addNote().subscribe(note => {
               this.note = note;
+              this.isLoading = false;
             });
           }
-          else if (this.dateService.isToday(notes[notes.length-1].dateCreated)) {
-            this.note = notes[notes.length-1];
-          } else {
-            this.noteService.addNote().subscribe(note => {
-              this.note = note;
-            });
-          }
-          this.isLoading = false;
-        });
+          )
+        })
       }
     })
     this.elem = document.documentElement;
@@ -78,12 +91,6 @@ export class WriteComponent implements OnInit, AfterViewInit, OnDestroy {
         this.textareaElement.nativeElement.focus();
       }
     }, 1000);
-  }
-
-  ngOnDestroy(): void {
-    if (this.listener) {
-      this.listener.unsubscribe();
-    }
   }
 
   toggleNav(): void {

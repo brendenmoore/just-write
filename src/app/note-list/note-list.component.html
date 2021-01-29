@@ -1,12 +1,16 @@
-<div>
+<div class="content">
   <button (click)="addNote()">Add Note</button>
   <h2>Your Notes:</h2>
   <app-spinner *ngIf="isLoading"></app-spinner>
-  <ul *ngIf="notes">
+  <ul *ngIf="notes && !isLoading">
     <li *ngFor="let note of notes">
-      <button (click)="navigate(note)">{{note.dateCreated | myDate}}</button>
+      <button (click)="navigate(note)">{{note.dateCreated | myDate}} {{note.title}}</button>
       <button (click)="onDelete(note.id)">Delete</button>
     </li>
   </ul>
+  <div class="paginator" *ngIf="notes.length > 0">
+    <app-paginator [length]="totalNotes" [pageSize]="notesPerPage" (page)="onChangedPage($event)"></app-paginator>
+  </div>
+
   <p *ngIf="!notes && !isLoading">No notes yet</p>
 </div>

@@ -17,6 +17,7 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { MyDatePipe } from './shared/my-date.pipe';
 import { WordCountPipe } from './shared/word-count.pipe';
 import { SideNavComponent } from './shared/side-nav/side-nav.component';
+import { PaginatorComponent } from './shared/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { SideNavComponent } from './shared/side-nav/side-nav.component';
     SpinnerComponent,
     MyDatePipe,
     WordCountPipe,
-    SideNavComponent
+    SideNavComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

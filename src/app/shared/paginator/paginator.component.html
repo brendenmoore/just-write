@@ -1,0 +1,5 @@
+<div>
+  <button (click)="previousPage()" [disabled]="!hasPreviousPage()">Previous</button>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">Next</button>
+  <p>{{pageIndex*pageSize+1}}-{{(pageIndex*pageSize)+pageSize}} of {{length}}</p>
+</div>
