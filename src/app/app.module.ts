@@ -5,7 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { WriteComponent } from './write/write.component';
