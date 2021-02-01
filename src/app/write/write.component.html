@@ -1,3 +1,13 @@
+<app-side-nav
+  [sidenavTemplateRef]="navContent"
+  [direction]="'left'"
+  [navWidth]="280"
+  [duration]="0.5">
+</app-side-nav>
+<ng-template #navContent>
+  <app-note-list></app-note-list>
+</ng-template>
+
 <div class="container">
   <app-spinner *ngIf="isLoading"></app-spinner>
   <div *ngIf="!isLoading && note" class="document">

@@ -14,7 +14,7 @@
       </svg></button>
     </li>
   </ul>
-  <div class="paginator" *ngIf="notes.length > 0">
+  <div class="paginator" *ngIf="notes">
     <app-paginator [length]="totalNotes" [pageSize]="notesPerPage" (page)="onChangedPage($event)"></app-paginator>
   </div>
 
