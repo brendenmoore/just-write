@@ -16,7 +16,7 @@ export class NoteListComponent implements OnInit {
   notes: Note[];
   isLoading: boolean = false;
   totalNotes: number = 0;
-  notesPerPage: number = 5;
+  notesPerPage: number = 10;
   currentPage: number = 1;
   private notesSub: Subscription;
 
