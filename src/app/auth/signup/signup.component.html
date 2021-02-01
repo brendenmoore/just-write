@@ -1,0 +1,15 @@
+<div class="container">
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <div class="form-container">
+    <form #signupForm="ngForm" autocomplete=off (submit)="onSignup(signupForm)" >
+      <h2>Sign Up</h2>
+      <label for="email">Email</label>
+      <p *ngIf="emailInput.invalid && emailInput.touched">Please enter a valid email.</p>
+      <input type="email" placeholder="email" #emailInput="ngModel" name="email" id="email" ngModel required email>
+      <label for="password">Password</label>
+      <p *ngIf="passwordInput.invalid && passwordInput.touched">Please enter a valid password.</p>
+      <input type="password" placeholder="password" #passwordInput="ngModel" name="password" id="password" ngModel required>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+</div>

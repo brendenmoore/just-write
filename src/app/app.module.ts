@@ -18,12 +18,14 @@ import { MyDatePipe } from './shared/my-date.pipe';
 import { WordCountPipe } from './shared/word-count.pipe';
 import { SideNavComponent } from './shared/side-nav/side-nav.component';
 import { PaginatorComponent } from './shared/paginator/paginator.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
     LoginComponent,
+    SignupComponent,
     PasswordResetComponent,
     PageNotFoundComponent,
     WriteComponent,
