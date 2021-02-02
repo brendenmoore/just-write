@@ -1,5 +1,4 @@
 <div class="container">
-  <app-spinner *ngIf="isLoading"></app-spinner>
   <div class="form-container">
     <form #loginForm="ngForm" autocomplete=off (submit)="onLogin(loginForm)" >
       <h2>Login</h2>
@@ -9,7 +8,8 @@
       <label for="password">Password</label>
       <p *ngIf="passwordInput.invalid && passwordInput.touched">Please enter a valid password.</p>
       <input type="password" placeholder="password" #passwordInput="ngModel" name="password" id="password" ngModel required>
-      <button type="submit">Login</button>
+      <button type="submit" [disabled]="isLoading">Login</button>
+      <app-spinner *ngIf="isLoading"></app-spinner>
     </form>
   </div>
 </div>

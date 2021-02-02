@@ -1,12 +1,13 @@
 const express = require('express');
 const note = require("../models/note");
+const checkAuth = require("../middleware/check-auth");
 
 const Note = require('../models/note');
 const Temp = require('../models/tempData');
 
 const router = express.Router();
 
-router.post("", (req, res, next) => {
+router.post("", checkAuth, (req, res, next) => {
   const note = new Note({
     content: req.body.content,
     title: req.body.title,
@@ -33,7 +34,7 @@ router.post("", (req, res, next) => {
 //   })
 // })
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id", checkAuth, (req, res, next) => {
   const note = new Note({
     _id: req.body.id,
     title: req.body.title,
@@ -45,7 +46,7 @@ router.put("/:id", (req, res, next) => {
   })
 })
 
-router.get('', (req, res, next) => {
+router.get('', checkAuth, (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const noteQuery = Note.find();
@@ -69,14 +70,14 @@ router.get('', (req, res, next) => {
     });
 });
 
-router.get('/last', (req, res, next) => {
+router.get('/last', checkAuth, (req, res, next) => {
   Temp.findOne({name: "test"}).then(temp => {
     console.log(temp)
     res.status(200).json(temp.mostRecentNoteId)
   })
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', checkAuth, (req, res, next) => {
   Note.findById(req.params.id).then(note => {
     if (note) {
       res.status(200).json(note);
@@ -86,9 +87,7 @@ router.get('/:id', (req, res, next) => {
   })
 });
 
-
-
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", checkAuth, (req, res, next) => {
   Note.deleteOne({_id: req.params.id}).then(result => {
     console.log(result);
     res.status(200).json({message: 'Post deleted!'});

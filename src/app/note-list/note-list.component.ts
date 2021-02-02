@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { Note } from '../models/note.model';
 import { NavigationService } from '../services/navigation.service';
 import { NoteService } from '../services/note.service';
@@ -11,21 +12,30 @@ import { PageEvent } from '../shared/paginator/PageEvent.model';
   templateUrl: './note-list.component.html',
   styleUrls: ['./note-list.component.css']
 })
-export class NoteListComponent implements OnInit {
+export class NoteListComponent implements OnInit, OnDestroy {
 
   notes: Note[];
   isLoading: boolean = false;
   totalNotes: number = 0;
   notesPerPage: number = 10;
   currentPage: number = 1;
+  userIsAuthenticated = false;
+  private authListenerSubs: Subscription;
   private notesSub: Subscription;
 
   constructor(public noteService: NoteService,
+              public authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
               private navBar: NavigationService) { }
 
   ngOnInit(): void {
+    this.authListenerSubs = this.authService
+      .getAuthStatusListener()
+      .subscribe((isAuthenticated: boolean) => {
+        this.userIsAuthenticated = isAuthenticated;
+      });
+
     this.isLoading = true;
     this.noteService.getNotes(this.notesPerPage, this.currentPage);
     this.notesSub = this.noteService.getNoteUpdateListener()
@@ -34,6 +44,11 @@ export class NoteListComponent implements OnInit {
         this.totalNotes = noteData.noteCount;
         this.isLoading = false;
       })
+  }
+
+  ngOnDestroy() {
+    this.authListenerSubs.unsubscribe;
+    this.notesSub.unsubscribe;
   }
 
   navigate(note: Note) {
@@ -67,6 +82,10 @@ export class NoteListComponent implements OnInit {
     this.currentPage = pageData.pageIndex + 1;
     this.notesPerPage = pageData.pageSize;
     this.noteService.getNotes(this.notesPerPage, this.currentPage)
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 
 }

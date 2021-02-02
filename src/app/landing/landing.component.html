@@ -1,7 +1,9 @@
 <div class="container flex flex-column" >
+  <button *ngIf="userIsAuthenticated">Logout</button>
   <p class="large-display"><em>Just write</em>&nbsp;<span class="blinking-cursor">|</span></p>
   <p class="sub-heading">A simple writing app with a fresh&nbsp;start&nbsp;each&nbsp;day</p>
-  <button class="button" routerLink="write">Start</button>
+  <button *ngIf="!loggedIn" class="button" routerLink="login">Login</button>
+  <button *ngIf="loggedIn" class="button" routerLink="write">Start</button>
 </div>
 
 
