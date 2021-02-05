@@ -55,7 +55,7 @@ router.get('', checkAuth, (req, res, next) => {
   noteQuery
     .then(documents => {
       fetchedNotes = documents;
-      return Note.count();
+      return Note.count({creator: req.userData.userId});
     })
     .then(count => {
       res.status(200).json({
