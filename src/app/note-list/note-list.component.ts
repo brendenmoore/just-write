@@ -84,6 +84,10 @@ export class NoteListComponent implements OnInit, OnDestroy {
     this.noteService.getNotes(this.notesPerPage, this.currentPage)
   }
 
+  isLoggedIn(): boolean {
+    return this.authService.getIsLoggedIn();
+  }
+
   onLogout() {
     this.authService.logout();
   }

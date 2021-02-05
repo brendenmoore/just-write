@@ -1,6 +1,6 @@
 <div class="content">
   <button (click)="addNote()">Add Note</button>
-  <button *ngIf="authService.getIsLoggedIn()" (click)="onLogout()">Logout</button>
+  <button *ngIf="isLoggedIn()" (click)="onLogout()">Logout</button>
   <h2>Your Notes:</h2>
   <app-spinner *ngIf="isLoading"></app-spinner>
   <ul *ngIf="notes && !isLoading">
