@@ -26,11 +26,13 @@ export class NoteService {
           content: note.content,
           dateCreated: note.dateCreated,
           title: note.title,
-          id: note._id
+          id: note._id,
+          creator: note.creator
         }
       }), maxNotes: noteData.maxNotes}
     }))
     .subscribe((transformedNotesData) => {
+        console.log(transformedNotesData)
         this.notes = transformedNotesData.notes;
         this.notesUpdated.next({
           notes: [...this.notes],
@@ -40,7 +42,7 @@ export class NoteService {
   }
 
   getMostRecentId() {
-    return this.http.get('http://localhost:3000/api/notes/last');
+    return this.http.get<{message: string, noteId: string}>('http://localhost:3000/api/notes/last');
   }
 
   getNoteById(noteId: string) {

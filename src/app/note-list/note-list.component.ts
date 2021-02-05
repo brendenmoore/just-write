@@ -47,8 +47,8 @@ export class NoteListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authListenerSubs.unsubscribe;
-    this.notesSub.unsubscribe;
+    this.authListenerSubs.unsubscribe();
+    this.notesSub.unsubscribe();
   }
 
   navigate(note: Note) {

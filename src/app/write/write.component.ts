@@ -30,58 +30,8 @@ export class WriteComponent implements OnInit, AfterViewInit {
               private nav: NavigationService){ }
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe(params => {
-      this.noteId = params.get('id');
-      this.isLoading = true;
-      // load note from params
-      if(this.noteId){
-        this.noteService.getNoteById(this.noteId).subscribe(noteData => {
-          this.note = {
-            id: noteData._id,
-            title: noteData.title,
-            dateCreated: noteData.dateCreated,
-            content: noteData.content
-          }
-          this.saved = true;
-          this.isLoading = false;
-        });
-      }
-      // otherwise load another note by default
-      else{
-        // load most recent note
-        this.noteService.getMostRecentId().subscribe(id => {
-          console.log(id.toString())
-          this.noteService.getNoteById(id.toString()).subscribe((noteData) => {
-            // check if it is today's and if so load it
-            if(this.dateService.isToday(noteData.dateCreated)) {
-              this.note = {
-                id: noteData._id,
-                title: noteData.title,
-                dateCreated: noteData.dateCreated,
-                content: noteData.content
-              }
-              this.saved = true;
-              this.isLoading = false;
-            }
-            // otherwise create and load a new note
-            else {
-              this.noteService.addNote().subscribe(note => {
-                this.note = note;
-                this.isLoading = false;
-              });
-            }
-          }, error => {
-            // if not found, create a new note
-            console.log(error)
-            this.noteService.addNote().subscribe(note => {
-              this.note = note;
-              this.isLoading = false;
-            });
-          }
-          )
-        })
-      }
-    })
+    this.nav.setShowNav(false);
+    this.autoLoadNote();
     this.elem = document.documentElement;
   }
 
@@ -91,6 +41,66 @@ export class WriteComponent implements OnInit, AfterViewInit {
         this.textareaElement.nativeElement.focus();
       }
     }, 1000);
+  }
+
+  private autoLoadNote(): void {
+    this.route.queryParamMap.subscribe(params => {
+      this.noteId = params.get('id');
+      this.isLoading = true;
+      if (this.noteId) {
+        this.loadNoteByParam(this.noteId);
+      } else {
+        this.loadTodaysNote();
+      }
+    })
+  }
+
+  private loadTodaysNote(): void {
+    this.noteService.getMostRecentId().subscribe(response => {
+      if (!response.noteId) {
+        this.createNewNote();
+        return;
+      }
+      this.noteService.getNoteById(response.noteId.toString()).subscribe(noteData => {
+        if(this.dateService.isToday(noteData.dateCreated)){
+          this.note = {
+            id: noteData._id,
+            title: noteData.title,
+            dateCreated: noteData.dateCreated,
+            content: noteData.content
+          }
+          this.saved = true;
+          this.isLoading = false;
+        } else {
+          this.createNewNote();
+        }
+      })
+    }, error => {
+      this.createNewNote();
+    })
+
+  }
+
+  private createNewNote(): void {
+    this.noteService.addNote().subscribe(note => {
+      this.note = note;
+      this.isLoading = false;
+    });
+  }
+
+
+
+  private loadNoteByParam(id): void {
+    this.noteService.getNoteById(id).subscribe(noteData => {
+      this.note = {
+        id: noteData._id,
+        title: noteData.title,
+        dateCreated: noteData.dateCreated,
+        content: noteData.content
+      }
+      this.saved = true;
+      this.isLoading = false;
+    })
   }
 
   toggleNav(): void {

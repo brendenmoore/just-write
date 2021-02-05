@@ -1,9 +1,8 @@
 const express = require('express');
-const note = require("../models/note");
 const checkAuth = require("../middleware/check-auth");
 
+const User = require('../models/user');
 const Note = require('../models/note');
-const Temp = require('../models/tempData');
 
 const router = express.Router();
 
@@ -11,10 +10,11 @@ router.post("", checkAuth, (req, res, next) => {
   const note = new Note({
     content: req.body.content,
     title: req.body.title,
-    dateCreated: req.body.dateCreated
+    dateCreated: req.body.dateCreated,
+    creator: req.userData.userId
   });
   note.save().then(createdNote => {
-    Temp.findOneAndUpdate({name: "test"}, {mostRecentNoteId: createdNote._id}).then(result => {
+    User.findByIdAndUpdate(req.userData.userId, {last: createdNote._id}).then(result => {
       console.log('saved recent note: ' + createdNote._id);
     })
     res.status(201).json({
@@ -24,16 +24,6 @@ router.post("", checkAuth, (req, res, next) => {
   });
 });
 
-// router.get("/createtest", (req, res, next) => {
-//   const temp = new Temp({
-//     name: "test",
-//     mostRecentNoteId: "none"
-//   });
-//   temp.save().then(createdtest => {
-//     console.log(createdtest)
-//   })
-// })
-
 router.put("/:id", checkAuth, (req, res, next) => {
   const note = new Note({
     _id: req.body.id,
@@ -41,15 +31,21 @@ router.put("/:id", checkAuth, (req, res, next) => {
     content: req.body.content,
     dateCreated: req.body.dateCreated
   });
-  Note.updateOne({_id: req.params.id}, note).then(result => {
-    res.status(200).json({message: "Updated Note"});
+  Note.updateOne({_id: req.params.id, creator: req.userData.userId }, note).then(result => {
+    if (result.n > 0) {
+      res.status(200).json({message: "Updated Note"});
+    }
+    else {
+      console.log(result)
+      res.status(401).json({message: "Not authorized"});
+    }
   })
 })
 
 router.get('', checkAuth, (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const noteQuery = Note.find();
+  const noteQuery = Note.find( {creator: req.userData.userId} );
   let fetchedNotes;
   if (pageSize && currentPage) {
     noteQuery
@@ -71,14 +67,21 @@ router.get('', checkAuth, (req, res, next) => {
 });
 
 router.get('/last', checkAuth, (req, res, next) => {
-  Temp.findOne({name: "test"}).then(temp => {
-    console.log(temp)
-    res.status(200).json(temp.mostRecentNoteId)
+  User.findById(req.userData.userId).then(user => {
+    console.log(user)
+    if (user.last) {
+      console.log('success?')
+      res.status(200).json({message:"note id found successfully", noteId: user.last});
+    }
+    else {
+      console.log('none found')
+      res.status(404).json({message: "no last note saved", noteId: null});
+    }
   })
 });
 
 router.get('/:id', checkAuth, (req, res, next) => {
-  Note.findById(req.params.id).then(note => {
+  Note.findOne({_id: req.params.id, creator: req.userData.userId}).then(note => {
     if (note) {
       res.status(200).json(note);
     } else {
@@ -88,9 +91,11 @@ router.get('/:id', checkAuth, (req, res, next) => {
 });
 
 router.delete("/:id", checkAuth, (req, res, next) => {
-  Note.deleteOne({_id: req.params.id}).then(result => {
-    console.log(result);
-    res.status(200).json({message: 'Post deleted!'});
+  Note.deleteOne({_id: req.params.id, creator: req.userData.userId}).then(result => {
+    if (result.n > 0) {
+      res.status(200).json({message: "Deleted Note"});
+    }
+    res.status(401).json({message: "Not authorized"});
   });
 });
 
