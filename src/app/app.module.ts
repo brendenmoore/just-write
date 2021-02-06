@@ -5,7 +5,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
-import { LoginComponent } from './auth/login/login.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { WriteComponent } from './write/write.component';
@@ -18,16 +17,14 @@ import { MyDatePipe } from './shared/my-date.pipe';
 import { WordCountPipe } from './shared/word-count.pipe';
 import { SideNavComponent } from './shared/side-nav/side-nav.component';
 import { PaginatorComponent } from './shared/paginator/paginator.component';
-import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    LoginComponent,
-    SignupComponent,
     PasswordResetComponent,
     PageNotFoundComponent,
     WriteComponent,
@@ -44,7 +41,8 @@ import { ErrorInterceptor } from './error-interceptor';
     AppRoutingModule,
     AutosizeModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AuthModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},
