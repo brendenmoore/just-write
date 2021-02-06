@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { SpinnerComponent } from "../shared/spinner/spinner.component";
+import { SharedModule } from "../shared/shared.module";
 import { AuthRoutingModule } from "./auth-routing.module";
 import { LoginComponent } from "./login/login.component";
 import { SignupComponent } from "./signup/signup.component";
@@ -9,13 +9,13 @@ import { SignupComponent } from "./signup/signup.component";
 @NgModule({
   declarations: [
     LoginComponent,
-    SignupComponent,
-    SpinnerComponent
+    SignupComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    SharedModule
   ]
 })
 export class AuthModule {

@@ -12,13 +12,9 @@ import { NoteListComponent } from './note-list/note-list.component';
 import { SettingsComponent } from './settings/settings.component';
 import { FormsModule } from '@angular/forms';
 import { AutosizeModule } from 'ngx-autosize';
-import { SpinnerComponent } from './shared/spinner/spinner.component';
-import { MyDatePipe } from './shared/my-date.pipe';
-import { WordCountPipe } from './shared/word-count.pipe';
-import { SideNavComponent } from './shared/side-nav/side-nav.component';
-import { PaginatorComponent } from './shared/paginator/paginator.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,18 +25,14 @@ import { ErrorInterceptor } from './error-interceptor';
     WriteComponent,
     NoteListComponent,
     SettingsComponent,
-    SpinnerComponent,
-    MyDatePipe,
-    WordCountPipe,
-    SideNavComponent,
-    PaginatorComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AutosizeModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},
