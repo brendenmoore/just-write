@@ -5,8 +5,9 @@ import { Note } from '../models/note.model';
 import { MyDateService } from './myDate.service';
 import { map } from 'rxjs/operators';
 import { MyDate } from '../models/myDate.model';
+import {environment} from "../../environments/environment"
 
-const BACKEND_URL = 'http://localhost:3000/api/notes/'
+const BACKEND_URL = environment.apiURL + 'notes/'
 
 @Injectable({
   providedIn: 'root'
