@@ -10,8 +10,7 @@ import { WriteComponent } from './write/write.component';
 const routes: Routes = [
   {path: "", component: LandingComponent},
   {path: "write", component: WriteComponent, canActivate: [AuthGuard]},
-  {path: "login", component: LoginComponent},
-  {path: "signup", component: SignupComponent}
+  {path: "auth", loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)}
 ];
 
 @NgModule({

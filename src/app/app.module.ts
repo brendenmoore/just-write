@@ -19,7 +19,6 @@ import { SideNavComponent } from './shared/side-nav/side-nav.component';
 import { PaginatorComponent } from './shared/paginator/paginator.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
-import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -41,8 +40,7 @@ import { AuthModule } from './auth/auth.module';
     AppRoutingModule,
     AutosizeModule,
     FormsModule,
-    HttpClientModule,
-    AuthModule
+    HttpClientModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},
