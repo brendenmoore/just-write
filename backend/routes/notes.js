@@ -21,6 +21,11 @@ router.post("", checkAuth, (req, res, next) => {
       noteId: createdNote._id,
       message: 'Post added successfully'
     });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: "Creating a note failed"
+    })
   });
 });
 
@@ -39,7 +44,11 @@ router.put("/:id", checkAuth, (req, res, next) => {
       console.log(result)
       res.status(401).json({message: "Not authorized"});
     }
-  })
+  }).catch(error => {
+    res.status(500).json({
+      message: "Couldn't update post"
+    })
+  });
 })
 
 router.get('', checkAuth, (req, res, next) => {
@@ -63,6 +72,11 @@ router.get('', checkAuth, (req, res, next) => {
         notes: fetchedNotes,
         maxNotes: count
       })
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "Fetching notes failed!"
+      })
     });
 });
 
@@ -78,6 +92,11 @@ router.get('/last', checkAuth, (req, res, next) => {
       res.status(404).json({message: "no last note saved", noteId: null});
     }
   })
+  .catch(error => {
+    res.status(500).json({
+      message: "Fetching note failed!"
+    })
+  });
 });
 
 router.get('/:id', checkAuth, (req, res, next) => {
@@ -88,6 +107,11 @@ router.get('/:id', checkAuth, (req, res, next) => {
       res.status(404).json({message: "Note not found!"});
     }
   })
+  .catch(error => {
+      res.status(500).json({
+        message: "Fetching note failed!"
+      })
+    });
 });
 
 router.delete("/:id", checkAuth, (req, res, next) => {

@@ -52,6 +52,8 @@ export class WriteComponent implements OnInit, AfterViewInit {
       } else {
         this.loadTodaysNote();
       }
+    }, error => {
+      this.isLoading = false;
     })
   }
 
@@ -99,6 +101,8 @@ export class WriteComponent implements OnInit, AfterViewInit {
         content: noteData.content
       }
       this.saved = true;
+      this.isLoading = false;
+    }, error => {
       this.isLoading = false;
     })
   }
