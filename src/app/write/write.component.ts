@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NoteService } from '../services/note.service';
 import { Note } from '../models/note.model';
@@ -17,6 +17,8 @@ export class WriteComponent implements OnInit, AfterViewInit {
   fullscreen: boolean = false;
   saved: boolean = true;
   isLoading: boolean = false;
+  timeout: NodeJS.Timer;
+  saveCounter: number = 0;
   elem; // for fullscreen toggle
 
   @ViewChild('textarea')
@@ -120,14 +122,17 @@ export class WriteComponent implements OnInit, AfterViewInit {
 
   onUpdate() {
     this.saved = false;
-    this.noteService.updateNote(
-      this.note.id,
-      this.note.dateCreated,
-      this.note.date,
-      this.note.content,
-      this.note.creator,
-      this.note.title
-    ).subscribe(result => this.saved = true);
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.noteService.updateNote(
+        this.note.id,
+        this.note.dateCreated,
+        this.note.date,
+        this.note.content,
+        this.note.creator,
+        this.note.title
+      ).subscribe(result => this.saved = true);
+    }, 1000);
   }
 
   openFullscreen() {

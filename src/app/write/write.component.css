@@ -57,6 +57,10 @@ input:focus{
   color: gray;
 }
 
+.saved{
+  color: green;
+}
+
 .upperRight {
   position: fixed;
   top: 10px;
