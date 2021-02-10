@@ -15,6 +15,7 @@ import { AutosizeModule } from 'ngx-autosize';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { SharedModule } from './shared/shared.module';
+import { CanDeactivateGuard } from './write/can-deactivate-guard.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SharedModule } from './shared/shared.module';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS , useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS , useClass: ErrorInterceptor, multi: true},
+    CanDeactivateGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -4,13 +4,15 @@ import { NoteService } from '../services/note.service';
 import { Note } from '../models/note.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationService } from '../services/navigation.service';
+import { CanComponentDeactivate } from './can-deactivate-guard.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-write',
   templateUrl: './write.component.html',
   styleUrls: ['./write.component.css']
 })
-export class WriteComponent implements OnInit, AfterViewInit {
+export class WriteComponent implements OnInit, AfterViewInit, CanComponentDeactivate {
 
   note: Note;
   noteId: string;
@@ -41,6 +43,14 @@ export class WriteComponent implements OnInit, AfterViewInit {
         this.textareaElement.nativeElement.focus();
       }
     }, 1000);
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.saved) {
+      return confirm("Changes have not been saved. Are you sure you want to leave?");
+    } else {
+      return true;
+    }
   }
 
   private autoLoadNote(): void {
