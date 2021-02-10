@@ -14,8 +14,6 @@ router.put("/:id", checkAuth, NoteController.updateNote)
 
 router.get('', checkAuth, NoteController.fetchNotes);
 
-router.get('/last', checkAuth, NoteController.getLastNote);
-
 router.get('/:id', checkAuth, NoteController.getNoteById);
 
 router.delete("/:id", checkAuth, NoteController.deleteNote);

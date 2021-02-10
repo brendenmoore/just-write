@@ -78,25 +78,6 @@ exports.fetchNotes = (req, res, next) => {
     });
 }
 
-exports.getLastNote = (req, res, next) => {
-  User.findById(req.userData.userId).then(user => {
-    console.log(user)
-    if (user.last) {
-      console.log('success?')
-      res.status(200).json({message:"note id found successfully", noteId: user.last});
-    }
-    else {
-      console.log('none found')
-      res.status(404).json({message: "no last note saved", noteId: null});
-    }
-  })
-  .catch(error => {
-    res.status(500).json({
-      message: "Fetching note failed!"
-    })
-  });
-}
-
 exports.getNoteById = (req, res, next) => {
   Note.findOne({_id: req.params.id, creator: req.userData.userId}).then(note => {
     if (note) {

@@ -55,8 +55,9 @@ export class NoteService {
       });
   }
 
-  getMostRecentId() {
-    return this.http.get<{message: string, noteId: string}>(BACKEND_URL + 'last');
+  getMostRecentNote() {
+    const queryParams = "?pageSize=1&page=1";
+    return this.http.get<{message: string, notes: NoteDTO, maxNotes: number}>(BACKEND_URL + queryParams);
   }
 
   getNoteById(noteId: string) {

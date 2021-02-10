@@ -58,27 +58,27 @@ export class WriteComponent implements OnInit, AfterViewInit {
   }
 
   private loadTodaysNote(): void {
-    this.noteService.getMostRecentId().subscribe(response => {
-      if (!response.noteId) {
+    this.noteService.getMostRecentNote().subscribe(response => {
+      const recentNote = response.notes[0];
+      if (!recentNote) {
         this.createNewNote();
         return;
       }
-      this.noteService.getNoteById(response.noteId.toString()).subscribe(noteData => {
-        if(this.isToday(new Date(noteData.date))){
-          this.note = {
-            id: noteData._id,
-            title: noteData.title,
-            dateCreated: noteData.dateCreated,
-            date: new Date(noteData.date),
-            content: noteData.content,
-            creator: noteData.creator
-          }
-          this.saved = true;
-          this.isLoading = false;
-        } else {
-          this.createNewNote();
+      if(this.isToday(new Date(recentNote.date))){
+        this.note = {
+          id: recentNote._id,
+          title: recentNote.title,
+          dateCreated: recentNote.dateCreated,
+          date: new Date(recentNote.date),
+          content: recentNote.content,
+          creator: recentNote.creator
         }
-      })
+        this.saved = true;
+        this.isLoading = false;
+      } else {
+        this.createNewNote();
+      }
+
     }, error => {
       this.createNewNote();
     })
