@@ -14,7 +14,7 @@
 
     <div class="header">
       <input type="text" [(ngModel)]="note.title" (keyup)="onUpdate()" placeholder="Add a Title">
-      <h2>{{note.dateCreated | myDate}}</h2>
+      <h2>{{note.date | date: 'fullDate'}}</h2>
     </div>
 
     <textarea

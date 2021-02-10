@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Note } from '../models/note.model';
-import { MyDateService } from './myDate.service';
 import { map } from 'rxjs/operators';
 import { MyDate } from '../models/myDate.model';
 import {environment} from "../../environments/environment"
+import { NoteDTO } from '../models/noteDTO.model';
 
 const BACKEND_URL = environment.apiURL + 'notes/'
 
@@ -17,7 +17,18 @@ export class NoteService {
   private notes: Note[] = [];
   private notesUpdated = new Subject<{notes: Note[], noteCount: number}>();
 
-  constructor(private myDateService: MyDateService, private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
+
+  private reformatNote(note: NoteDTO): Note {
+    return {
+      content: note.content,
+      dateCreated: note.dateCreated,
+      date: new Date(note.date),
+      title: note.title,
+      id: note._id,
+      creator: note.creator
+    }
+  }
 
   getNotes(notesPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${notesPerPage}&page=${currentPage}`;
@@ -27,6 +38,7 @@ export class NoteService {
         return {
           content: note.content,
           dateCreated: note.dateCreated,
+          date: new Date(note.date),
           title: note.title,
           id: note._id,
           creator: note.creator
@@ -48,7 +60,7 @@ export class NoteService {
   }
 
   getNoteById(noteId: string) {
-    return this.http.get<{_id: string, title: string, content: string, dateCreated: MyDate}>(BACKEND_URL + noteId);
+    return this.http.get<NoteDTO>(BACKEND_URL + noteId);
   }
 
   getNoteUpdateListener() {
@@ -56,13 +68,15 @@ export class NoteService {
   }
 
   addNote() {
-    const note: Note = {id: null, dateCreated: this.myDateService.getToday(), content: ""}
+    const date = new Date();
+    const noteDTO: NoteDTO = {_id: null, dateCreated: null, date: date.getTime(), content: "", creator: null}
     const newNoteSubject = new Subject<Note>();
-    this.http.post<{message: string, noteId: string}>(BACKEND_URL, note)
+    this.http.post<{message: string, noteId: string, note: NoteDTO}>(BACKEND_URL, noteDTO)
       .subscribe(responseData => {
         const id = responseData.noteId;
-        note.id = id;
-        newNoteSubject.next({...note})
+        const newNote = this.reformatNote(responseData.note);
+        console.log(newNote)
+        newNoteSubject.next({...newNote})
       });
     return newNoteSubject.asObservable();
   }
@@ -71,8 +85,8 @@ export class NoteService {
     return this.http.delete(BACKEND_URL + noteId);
   }
 
-  updateNote(noteId: string, dateCreated: MyDate, content: string, title?: string) {
-    const note: Note = { id: noteId, dateCreated: dateCreated, title: title, content: content};
+  updateNote(noteId: string, dateCreated: MyDate, date: Date, content: string, creator: string, title?: string) {
+    const note: Note = { id: noteId, dateCreated: dateCreated, date: date, title: title, content: content, creator: creator};
     return this.http.put(BACKEND_URL + noteId, note);
   }
 

@@ -3,7 +3,6 @@ import { DOCUMENT } from '@angular/common';
 import { NoteService } from '../services/note.service';
 import { Note } from '../models/note.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MyDateService } from '../services/myDate.service';
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
@@ -26,7 +25,6 @@ export class WriteComponent implements OnInit, AfterViewInit {
   constructor(@Inject(DOCUMENT) private document: any,
               private noteService: NoteService,
               private route: ActivatedRoute,
-              private dateService: MyDateService,
               private nav: NavigationService){ }
 
   ngOnInit(): void {
@@ -64,12 +62,14 @@ export class WriteComponent implements OnInit, AfterViewInit {
         return;
       }
       this.noteService.getNoteById(response.noteId.toString()).subscribe(noteData => {
-        if(this.dateService.isToday(noteData.dateCreated)){
+        if(this.isToday(new Date(noteData.date))){
           this.note = {
             id: noteData._id,
             title: noteData.title,
             dateCreated: noteData.dateCreated,
-            content: noteData.content
+            date: new Date(noteData.date),
+            content: noteData.content,
+            creator: noteData.creator
           }
           this.saved = true;
           this.isLoading = false;
@@ -90,7 +90,12 @@ export class WriteComponent implements OnInit, AfterViewInit {
     });
   }
 
-
+  private isToday = (someDate) => {
+    const today = new Date()
+    return someDate.getDate() == today.getDate() &&
+      someDate.getMonth() == today.getMonth() &&
+      someDate.getFullYear() == today.getFullYear()
+  }
 
   private loadNoteByParam(id): void {
     this.noteService.getNoteById(id).subscribe(noteData => {
@@ -98,7 +103,9 @@ export class WriteComponent implements OnInit, AfterViewInit {
         id: noteData._id,
         title: noteData.title,
         dateCreated: noteData.dateCreated,
-        content: noteData.content
+        date: new Date(noteData.date),
+        content: noteData.content,
+        creator: noteData.creator
       }
       this.saved = true;
       this.isLoading = false;
@@ -116,7 +123,9 @@ export class WriteComponent implements OnInit, AfterViewInit {
     this.noteService.updateNote(
       this.note.id,
       this.note.dateCreated,
+      this.note.date,
       this.note.content,
+      this.note.creator,
       this.note.title
     ).subscribe(result => this.saved = true);
   }

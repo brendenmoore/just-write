@@ -5,4 +5,6 @@ export interface Note {
   content: string;
   title?: string;
   dateCreated: MyDate;
+  date: Date;
+  creator: string;
 }

@@ -2,10 +2,11 @@ const User = require('../models/user');
 const Note = require('../models/note');
 
 exports.createNote = (req, res, next) => {
+  console.log(req.body.date)
   const note = new Note({
     content: req.body.content,
     title: req.body.title,
-    dateCreated: req.body.dateCreated,
+    date: req.body.date,
     creator: req.userData.userId
   });
   note.save().then(createdNote => {
@@ -13,6 +14,7 @@ exports.createNote = (req, res, next) => {
       console.log('saved recent note: ' + createdNote._id);
     })
     res.status(201).json({
+      note: createdNote,
       noteId: createdNote._id,
       message: 'Post added successfully'
     });
@@ -29,7 +31,7 @@ exports.updateNote = (req, res, next) => {
     _id: req.body.id,
     title: req.body.title,
     content: req.body.content,
-    dateCreated: req.body.dateCreated
+    date: req.body.date
   });
   Note.updateOne({_id: req.params.id, creator: req.userData.userId }, note).then(result => {
     if (result.n > 0) {
@@ -53,6 +55,7 @@ exports.fetchNotes = (req, res, next) => {
   let fetchedNotes;
   if (pageSize && currentPage) {
     noteQuery
+      .sort('-date')
       .skip(pageSize * (currentPage - 1))
       .limit(pageSize);
   }
