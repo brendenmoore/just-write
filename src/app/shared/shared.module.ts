@@ -5,6 +5,8 @@ import { PaginatorComponent } from "./paginator/paginator.component";
 import { SideNavComponent } from "./side-nav/side-nav.component";
 import { SpinnerComponent } from "./spinner/spinner.component";
 import { WordCountPipe } from "./word-count.pipe";
+import { NavbarComponent } from './navbar/navbar.component';
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -12,18 +14,22 @@ import { WordCountPipe } from "./word-count.pipe";
     PaginatorComponent,
     SideNavComponent,
     MyDatePipe,
-    WordCountPipe
+    WordCountPipe,
+    NavbarComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
+    RouterModule,
     CommonModule,
     SpinnerComponent,
     PaginatorComponent,
     SideNavComponent,
     MyDatePipe,
-    WordCountPipe
+    WordCountPipe,
+    NavbarComponent
   ]
 })
 export class SharedModule {}

@@ -1,11 +1,11 @@
 .container {
   display: flex;
-  height: 100%;
   align-items: center;
   justify-content: center;
 }
 
 .form-container {
+  margin-top: 100px;
   background: white;
   border-radius: 5px;
   align-self: center;

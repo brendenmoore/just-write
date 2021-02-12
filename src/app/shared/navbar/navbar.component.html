@@ -1,0 +1,10 @@
+<header [ngClass]="{'no-background': homeTheme}">
+  <button class="brand" routerLink="/" [ngClass]="{'not-visible': homeTheme}">Just Write</button>
+  <nav>
+    <button *ngIf="!loggedIn" routerLink="/auth/signup" routerLinkActive="activated">Register</button>
+    <button *ngIf="!loggedIn" routerLink="/auth/login" routerLinkActive="activated">Login</button>
+    <p *ngIf="loggedIn">Logged in as {{userEmail}}</p>
+    <button *ngIf="loggedIn" (click)="logout()">Logout</button>
+</nav>
+
+</header>
