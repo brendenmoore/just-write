@@ -44,9 +44,3 @@ app-spinner {
   display: flex;
   justify-content: center;
 }
-
-.paginator {
-  position: absolute;
-  bottom: 1px;
-  width: 100%;
-}

@@ -16,6 +16,8 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { SharedModule } from './shared/shared.module';
 import { CanDeactivateGuard } from './write/can-deactivate-guard.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { CanDeactivateGuard } from './write/can-deactivate-guard.service';
     WriteComponent,
     NoteListComponent,
     SettingsComponent,
+    DashboardComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

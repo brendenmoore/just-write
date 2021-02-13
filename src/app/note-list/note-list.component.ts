@@ -57,13 +57,6 @@ export class NoteListComponent implements OnInit, OnDestroy {
     });
   }
 
-  addNote() {
-    this.noteService.addNote().subscribe(note=> {
-      this.noteService.getNotes(this.notesPerPage, this.currentPage);
-      this.navigate(note);
-    });
-  }
-
   onDelete(id: string) {
     this.isLoading = true;
     this.noteService.deleteNote(id).subscribe(() => {

@@ -69,6 +69,7 @@ export class WriteComponent implements OnInit, AfterViewInit, CanComponentDeacti
 
   private loadTodaysNote(): void {
     this.noteService.getMostRecentNote().subscribe(response => {
+      console.log(response)
       const recentNote = response.notes[0];
       if (!recentNote) {
         this.createNewNote();

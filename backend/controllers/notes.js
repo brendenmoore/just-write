@@ -2,7 +2,6 @@ const User = require('../models/user');
 const Note = require('../models/note');
 
 exports.createNote = (req, res, next) => {
-  console.log(req.body.date)
   const note = new Note({
     content: req.body.content,
     title: req.body.title,
@@ -38,7 +37,6 @@ exports.updateNote = (req, res, next) => {
       res.status(200).json({message: "Updated Note"});
     }
     else {
-      console.log(result)
       res.status(401).json({message: "Not authorized"});
     }
   }).catch(error => {
@@ -97,7 +95,8 @@ exports.deleteNote = (req, res, next) => {
   Note.deleteOne({_id: req.params.id, creator: req.userData.userId}).then(result => {
     if (result.n > 0) {
       res.status(200).json({message: "Deleted Note"});
+    } else {
+      res.status(401).json({message: "Not authorized"});
     }
-    res.status(401).json({message: "Not authorized"});
   });
 }

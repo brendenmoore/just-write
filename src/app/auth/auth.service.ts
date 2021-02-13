@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   getUserEmail() {
-    console.log(this.userEmail);
+    (this.userEmail);
     return this.userEmail;
   }
 
