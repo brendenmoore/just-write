@@ -1,20 +1,11 @@
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .form-container {
-  margin-top: 100px;
-  background: white;
-  border-radius: 5px;
-  align-self: center;
-  justify-self: center;
-  width: 400px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 75px auto 100px;
 }
 
 form {
+  width: 400px;
+  margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -51,28 +42,4 @@ input {
 
 input:invalid {
   background-color: rgb(255, 255, 220);
-}
-
-button {
-  margin-top: 10px;
-  height: 40px;
-  width: 300px;
-  align-self: center;
-  font-size: x-large;
-  font-family: 'Courier New', Courier, monospace;
-  background-color: #f1f1f1;
-  box-shadow: 1px 1px 2px 0 rgb(49, 46, 46);
-  border-radius: 5px;
-}
-
-button:hover {
-  cursor: pointer;
-  transform: translate(-1px, -1px);
-  box-shadow: 2px 2px 2px 0 rgb(49, 46, 46);
-}
-
-button:active {
-  background-color: #fdfdfd;
-  box-shadow: inset -.5px -.5px .5px rgb(73, 73, 73);
-  transform: translate(1px, 1px);
 }

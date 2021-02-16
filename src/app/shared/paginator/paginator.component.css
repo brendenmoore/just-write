@@ -3,3 +3,21 @@ div {
   text-align: center;
   margin: 10px 0;
 }
+
+.button-sm {
+  font-size: small;
+  width: auto;
+  height: auto;
+  padding: 5px 10px;
+  box-shadow: none;
+}
+
+.button-left {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.button-right {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}

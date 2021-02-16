@@ -1,11 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+/* global styles */
 @import 'reset.css';
 
+html {
+  height: 100%;
+}
+
 body {
-  background-color: #e9d7d7;
-  /* background: #c4cfd3; */
-  padding: 0;
-  margin: 0;
   display: flex;
   position: absolute;
   top: 0;
@@ -21,8 +21,102 @@ app-root {
   height: 100%;
 }
 
+
+/* Layout */
 .container {
   margin: 0 40px;
+}
+
+.mt-50 {
+  margin-top: 50px;
+}
+
+.mt-25 {
+  margin-top: 25px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+/* Design */
+.button {
+  width:200px;
+  height: 50px;
+  align-self: center;
+  font-size: 1.5em;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-style: none;
+  box-shadow: 3px 3px 3px 0 rgba(49, 46, 46, 0.5);
+  border-radius: 35px;
+}
+
+.button-lg {
+  width:300px;
+  height: 75px;
+  font-size: 2em;
+}
+
+.button:hover {
+  cursor: pointer;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 3px 0 rgba(49, 46, 46, 0.5);
+}
+
+.button:active {
+  box-shadow: inset -1px -1px 1px rgb(73, 73, 73);
+  transform: translate(2px, 2px);
+}
+
+.button:focus {
+  outline: 0;
+  border-radius: 35px;
+  box-shadow: 0 0 0 2px black;
+}
+
+.outline {
+  background-color: rgba(255, 255, 255, 0.25);
+  border: rgba(255, 255, 255, 0.75);
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  min-width: 400px;
+}
+
+
+/* Backgrounds */
+.bg-fill {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.bg-orange {
+  background-color: #FBAB7E;
+  background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+}
+
+.bg-green {
+  background-color: #85FFBD;
+  background-image: linear-gradient(45deg, #85FFBD 0%, #FFFB7D 100%);
+}
+
+.bg-blue {
+  background-color: #8BC6EC;
+  background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+}
+
+.bg-unicorn {
+  background-color: #A9C9FF;
+  background-image: linear-gradient(180deg, #A9C9FF 0%, #FFBBEC 100%);
+}
+
+.bg-purple {
+  background: #9796f0;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #fbc7d4, #9796f0);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #fbc7d4, #9796f0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 

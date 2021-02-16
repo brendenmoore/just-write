@@ -1,16 +1,18 @@
-<app-navbar></app-navbar>
-<div class="container">
-  <div class="form-container">
-    <form #loginForm="ngForm" autocomplete=off (submit)="onLogin(loginForm)" >
-      <h2>Login</h2>
-      <label for="email">Email</label>
-      <p *ngIf="emailInput.invalid && emailInput.touched">Please enter a valid email.</p>
-      <input type="email" placeholder="email" #emailInput="ngModel" name="email" id="email" ngModel required email>
-      <label for="password">Password</label>
-      <p *ngIf="passwordInput.invalid && passwordInput.touched">Please enter a valid password.</p>
-      <input type="password" placeholder="password" #passwordInput="ngModel" name="password" id="password" ngModel required>
-      <button type="submit" [disabled]="isLoading">Login</button>
-      <app-spinner *ngIf="isLoading"></app-spinner>
-    </form>
+<div class="bg-fill bg-green">
+  <div class="outline mt-50">
+    <app-navbar></app-navbar>
+    <div class="form-container">
+      <form #loginForm="ngForm" autocomplete=off (submit)="onLogin(loginForm)" >
+        <h2>Login</h2>
+        <label for="email">Email</label>
+        <p *ngIf="emailInput.invalid && emailInput.touched">Please enter a valid email.</p>
+        <input type="email" placeholder="email" #emailInput="ngModel" name="email" id="email" ngModel required email>
+        <label for="password">Password</label>
+        <p *ngIf="passwordInput.invalid && passwordInput.touched">Please enter a valid password.</p>
+        <input type="password" placeholder="password" #passwordInput="ngModel" name="password" id="password" ngModel required>
+        <button class="button" type="submit" [disabled]="isLoading">Login</button>
+        <app-spinner *ngIf="isLoading"></app-spinner>
+      </form>
+    </div>
   </div>
 </div>

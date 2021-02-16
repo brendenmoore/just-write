@@ -1,47 +1,48 @@
+
+
 .flex {
   display: flex;
 }
 .flex-column {
   flex-direction: column;
 }
+
+.hero {
+  height: 90vh;
+}
+.section {
+  margin: 25px;
+  border-radius: 15px;
+  background-color: white;
+}
+.section-heading {
+  padding: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5em;
+  /* text-align: center; */
+}
+.section-body {
+
+}
 .large-display {
   font-family: 'Lora', serif;
-  font-size: 8em;
+  font-size: 125px;
   text-align: center;
-  margin: 1em 0 .5em 0;
-  font-style: italic;
+  margin: 50px 0px 60px;
 }
 .sub-heading {
-  font-family: 'Lora', serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 2em;
   text-align: center;
-  margin-bottom: 2em;
-}
-.button {
-  width:300px;
-  height: 75px;
-  align-self: center;
-  font-size: 2.5em;
-  font-family: 'Courier New', Courier, monospace;
-  background-color: #f1f1f1;
-  box-shadow: 2px 2px 4px 0 rgb(49, 46, 46);
-  border-radius: 5px;
+  margin-bottom: 20vh;
 }
 
-.button:hover {
-  cursor: pointer;
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 4px 0 rgb(49, 46, 46);
-}
 
-.button:active {
-  background-color: #fdfdfd;
-  box-shadow: inset -1px -1px 1px rgb(73, 73, 73);
-  transform: translate(2px, 2px);
-}
 
 .blinking-cursor {
-  color: #2E3D48;
+  border-color: black;
+  border-width: 1px;
+  border-left: solid;
   font-family: Arial, Helvetica, sans-serif;
   -webkit-animation: 1s blink step-end infinite;
   -moz-animation: 1s blink step-end infinite;
@@ -52,45 +53,51 @@
 
 @keyframes blink {
   from, to {
-    color: transparent;
+    border-color: transparent;
   }
   50% {
-    color: black;
+    border-color: black;
   }
 }
 
 @-moz-keyframes blink {
   from, to {
-    color: transparent;
+    border-color: transparent;
   }
   50% {
-    color: black;
+    border-color: black;
   }
 }
 
 @-webkit-keyframes blink {
   from, to {
-    color: transparent;
+    border-color: transparent;
   }
   50% {
-    color: black;
+    border-color: black;
   }
 }
 
 @-ms-keyframes blink {
   from, to {
-    color: transparent;
+    border-color: transparent;
   }
   50% {
-    color: black;
+    border-color: black;
   }
 }
 
 @-o-keyframes blink {
   from, to {
-    color: transparent;
+    border-color: transparent;
   }
   50% {
-    color: black;
+    border-color: black;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .large-display {
+    font-size: 70px;
   }
 }

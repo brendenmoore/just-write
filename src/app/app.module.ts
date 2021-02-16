@@ -18,6 +18,7 @@ import { SharedModule } from './shared/shared.module';
 import { CanDeactivateGuard } from './write/can-deactivate-guard.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { FloFullscreenModule } from '@flosportsinc/ng-fullscreen';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { HomeComponent } from './home/home.component';
     AutosizeModule,
     FormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    FloFullscreenModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},

@@ -21,20 +21,17 @@ export class WriteComponent implements OnInit, AfterViewInit, CanComponentDeacti
   isLoading: boolean = false;
   timeout: NodeJS.Timer;
   saveCounter: number = 0;
-  elem; // for fullscreen toggle
 
   @ViewChild('textarea')
   private textareaElement: ElementRef;
 
-  constructor(@Inject(DOCUMENT) private document: any,
-              private noteService: NoteService,
+  constructor(private noteService: NoteService,
               private route: ActivatedRoute,
               private nav: NavigationService){ }
 
   ngOnInit(): void {
     this.nav.setShowNav(false);
     this.autoLoadNote();
-    this.elem = document.documentElement;
   }
 
   ngAfterViewInit(): void {
@@ -145,39 +142,5 @@ export class WriteComponent implements OnInit, AfterViewInit, CanComponentDeacti
       ).subscribe(result => this.saved = true);
     }, 1000);
   }
-
-  openFullscreen() {
-    if (this.elem.requestFullscreen) {
-      this.elem.requestFullscreen();
-    } else if (this.elem.mozRequestFullScreen) {
-      /* Firefox */
-      this.elem.mozRequestFullScreen();
-    } else if (this.elem.webkitRequestFullscreen) {
-      /* Chrome, Safari and Opera */
-      this.elem.webkitRequestFullscreen();
-    } else if (this.elem.msRequestFullscreen) {
-      /* IE/Edge */
-      this.elem.msRequestFullscreen();
-    }
-    this.fullscreen = true;
-  }
-
-  closeFullscreen() {
-    if (this.document.exitFullscreen) {
-      this.document.exitFullscreen();
-    } else if (this.document.mozCancelFullScreen) {
-      /* Firefox */
-      this.document.mozCancelFullScreen();
-    } else if (this.document.webkitExitFullscreen) {
-      /* Chrome, Safari and Opera */
-      this.document.webkitExitFullscreen();
-    } else if (this.document.msExitFullscreen) {
-      /* IE/Edge */
-      this.document.msExitFullscreen();
-    }
-    this.fullscreen = false;
-  }
-
-
 
 }

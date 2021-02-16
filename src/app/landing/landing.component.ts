@@ -11,10 +11,18 @@ export class LandingComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
   loggedIn = false;
   private authListenerSubs: Subscription;
+  backgrounds: string[] = [
+    "bg-orange",
+    "bg-blue",
+    "bg-green",
+    "bg-purple"
+  ];
+  backgroundColor: string = "bg-orange";
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.randomizeBackground();
     this.loggedIn = this.authService.getIsLoggedIn();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
@@ -25,6 +33,12 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.authListenerSubs.unsubscribe();
+  }
+
+  randomizeBackground() {
+    const index = Math.floor(Math.random() * this.backgrounds.length);
+    this.backgroundColor = this.backgrounds[index];
+    console.log(this.backgroundColor);
   }
 
 }

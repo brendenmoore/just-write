@@ -3,7 +3,7 @@
   <app-spinner *ngIf="isLoading"></app-spinner>
   <ul *ngIf="notes && !isLoading">
     <li *ngFor="let note of notes">
-      <button (click)="navigate(note)" class="note-title">
+      <button (click)="navigate(note)" floClickToEnterFullscreen class="note-title">
         <div>{{note.title}}</div>
         <div [ngClass]="{'note-date': note.title}">{{note.date | date: 'fullDate'}}</div>
       </button>

@@ -19,17 +19,26 @@ ul {
 }
 
 li {
-  background-color: white;
   margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
+  border-radius: 5px;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: none;
 }
 
 .note-title {
   width: 100%;
+  min-height: 50px;
   text-align: left;
   display: block;
   flex-direction: column;
+  justify-items: center;
   font-size: medium;
   padding: 5px 10px;
 }

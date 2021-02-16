@@ -1,11 +1,18 @@
-<app-navbar homeTheme="true"></app-navbar>
-<div class="container flex flex-column" >
-  <button *ngIf="userIsAuthenticated">Logout</button>
-  <p class="large-display"><em>Just write</em>&nbsp;<span class="blinking-cursor">|</span></p>
-  <p class="sub-heading">A simple writing app with a fresh&nbsp;start&nbsp;each&nbsp;day</p>
-  <button *ngIf="!loggedIn" class="button" routerLink="auth/login">Login</button>
-  <button *ngIf="!loggedIn" class="button" routerLink="auth/signup">Register</button>
-  <button *ngIf="loggedIn" class="button" routerLink="write">Start</button>
+<div class="bg-fill" [ngClass]="backgroundColor">
+  <div class="outline mt-50">
+    <app-navbar homeTheme="true"></app-navbar>
+    <div class="flex flex-column hero" >
+      <p class="large-display"><em>Just write</em>&nbsp;<span class="blinking-cursor"></span></p>
+      <p class="sub-heading">Meet your writing goals every day.</p>
+      <button *ngIf="!loggedIn" class="button button-lg" routerLink="/write">Get Started</button>
+    </div>
+    <section class="section">
+      <h1 class="section-heading">
+        Start each day with a fresh page
+      </h1>
+
+    </section>
+  </div>
 </div>
 
 

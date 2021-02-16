@@ -1,5 +1,5 @@
 <div>
-  <button (click)="previousPage()" [disabled]="!hasPreviousPage()">Previous</button>
-  <button (click)="nextPage()" [disabled]="!hasNextPage()">Next</button>
-  <p>{{pageIndex*pageSize+1}}-{{(pageIndex*pageSize)+pageSize < length ? (pageIndex*pageSize)+pageSize : length}} of {{length}}</p>
+  <button class="button button-sm button-left" (click)="previousPage()" [disabled]="!hasPreviousPage()">Previous</button>
+  <button class="button button-sm button-right"(click)="nextPage()" [disabled]="!hasNextPage()">Next</button>
+  <p class="mt-10">{{pageIndex*pageSize+1}}-{{(pageIndex*pageSize)+pageSize < length ? (pageIndex*pageSize)+pageSize : length}} of {{length}}</p>
 </div>

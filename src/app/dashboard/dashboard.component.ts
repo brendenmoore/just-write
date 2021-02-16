@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NoteService } from '../services/note.service';
 
@@ -11,8 +12,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private noteService: NoteService, private router: Router) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   addNote() {
     this.noteService.addNote().subscribe(note=> {
