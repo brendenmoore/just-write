@@ -6,7 +6,7 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['../auth.styles.css']
 })
 export class SignupComponent implements OnInit, OnDestroy {
 

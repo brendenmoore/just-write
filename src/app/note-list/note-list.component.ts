@@ -58,17 +58,17 @@ export class NoteListComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDelete(id: string) {
-    this.isLoading = true;
-    this.noteService.deleteNote(id).subscribe(() => {
-      this.noteService.getNotes(this.notesPerPage, this.currentPage);
-      this.route.queryParamMap.subscribe(params => {
-        let activeId = params.get('id');
-        if (activeId === id) {
-          this.router.navigate(["/write"]);
-        }
-      })
-    });
+  onDelete(note: Note) {
+    if (!note.title) {
+      note.title = "Unnamed Note"
+    }
+    let isConfirmed = confirm("Are you sure you want to delete " + note.title + " from " + note.date.toDateString() + "?")
+    if(isConfirmed) {
+      this.isLoading = true;
+      this.noteService.deleteNote(note.id).subscribe(() => {
+        this.noteService.getNotes(this.notesPerPage, this.currentPage);
+      });
+    }
   }
 
   onChangedPage(pageData: PageEvent) {

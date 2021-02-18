@@ -47,3 +47,4 @@ Thumbs.db
 backend/backend.zip
 src/environments/environment.prod.ts
 src/environments/environment.prod.ts
+src/app/note-list/note-list.component.css

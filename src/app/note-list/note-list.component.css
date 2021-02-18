@@ -18,29 +18,64 @@ ul {
   margin-right: 10px;
 }
 
+.delete-btn {
+  visibility: hidden;
+}
+
 li {
   margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
-  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 15px;
+  padding: 10px 7px;
+}
+
+li:hover .delete-btn {
+  visibility: visible;
+}
+
+.delete-btn:active {
+  visibility: visible;
+  background-color: white;
+}
+
+.delete-btn:focus {
+  visibility: visible;
+  border: black solid 1px;
 }
 
 button {
   border: none;
   outline: none;
   cursor: pointer;
-  background-color: none;
+  background: none;
 }
 
 .note-title {
   width: 100%;
-  min-height: 50px;
   text-align: left;
   display: block;
   flex-direction: column;
   justify-items: center;
   font-size: medium;
-  padding: 5px 10px;
+  padding: 10px 15px;
+  border-radius: 15px;
+}
+
+.note-title:hover {
+  background-color: white;
+  transform: translate(-2px, -2px);
+  box-shadow: rgba(0, 0, 0, 0.5) 1px 1px 2px 0;
+}
+
+.note-title:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.note-title:focus {
+  background-color: white;
 }
 
 .note-date {

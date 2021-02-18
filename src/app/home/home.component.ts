@@ -9,6 +9,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   isAuth: boolean = false;
+  isMobile: boolean = false;
   authStatusSub: Subscription;
 
   constructor(private authService: AuthService) { }
@@ -17,7 +18,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.isAuth = this.authService.getIsLoggedIn();
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(response => {
       this.isAuth = response;
-    })
+    });
+    this.isMobile = (window.innerWidth < 768);
   }
 
   ngOnDestroy(): void {

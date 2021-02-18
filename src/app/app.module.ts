@@ -19,6 +19,7 @@ import { CanDeactivateGuard } from './write/can-deactivate-guard.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { FloFullscreenModule } from '@flosportsinc/ng-fullscreen';
+import { MobileLandingComponent } from './mobile-landing/mobile-landing.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FloFullscreenModule } from '@flosportsinc/ng-fullscreen';
     SettingsComponent,
     DashboardComponent,
     HomeComponent,
+    MobileLandingComponent,
   ],
   imports: [
     BrowserModule,
