@@ -1,2 +1,3 @@
-<app-landing *ngIf="!isAuth"></app-landing>
+<app-landing *ngIf="!isAuth && !isMobile"></app-landing>
 <app-dashboard *ngIf="isAuth"></app-dashboard>
+<app-mobile-landing *ngIf="isMobile"></app-mobile-landing>
