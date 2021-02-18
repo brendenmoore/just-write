@@ -1,17 +1,48 @@
 <div class="bg-fill" [ngClass]="backgroundColor">
-  <div class="outline mt-50">
+  <div class="outline my-50 flex flex-column">
     <app-navbar homeTheme="true"></app-navbar>
-    <div class="flex flex-column hero" >
+    <div class="flex flex-column hero mt-25" >
       <p class="large-display"><em>Just write</em>&nbsp;<span class="blinking-cursor"></span></p>
       <p class="sub-heading">Meet your writing goals every day.</p>
       <button *ngIf="!loggedIn" class="button button-lg" routerLink="/write">Get Started</button>
     </div>
     <section class="section">
-      <h1 class="section-heading">
-        Start each day with a fresh page
-      </h1>
-
+      <div class="section-text">
+        <h1 class="section-heading">
+          Start each day with a fresh page
+        </h1>
+        <p>Each day brings a new start with this beautifully simple writing app.</p>
+      </div>
+      <img class="section-image" src="../../assets/images/drawing.svg" alt="New Page">
     </section>
+    <section class="section">
+      <div class="section-text">
+        <h1 class="section-heading">
+          Focus in on what matters most
+        </h1>
+        <p>No extra buttons, no ads, no distractions.</p>
+      </div>
+      <img class="section-image" src="../../assets/images/drawing.svg" alt="New Page">
+    </section>
+    <section class="section">
+      <div class="section-text">
+        <h1 class="section-heading">
+          Make your writing goals
+        </h1>
+        <p>Your word count is always just a glance away. It's easy to keep track of your progress.</p>
+      </div>
+      <img class="section-image" src="../../assets/images/drawing.svg" alt="New Page">
+    </section>
+    <section class="section">
+      <div class="section-text">
+        <h1 class="section-heading">
+          Keep it forever, wherever
+        </h1>
+        <p>Everything saves instantly and automatically, so anywhere you have internet you can access your notes.</p>
+      </div>
+      <img class="section-image" src="../../assets/images/drawing.svg" alt="New Page">
+    </section>
+    <button *ngIf="!loggedIn" class="button button-lg my-50" routerLink="/auth/signup">Sign Up for Free</button>
   </div>
 </div>
 
