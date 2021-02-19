@@ -1,7 +1,7 @@
 
 
 .document {
-  margin: 25px auto 0;
+  margin: 10px auto 0;
   max-width: 1000px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 19px;
@@ -32,7 +32,6 @@ textarea {
 
 input{
   font-size: 25px;
-  margin-top: 15px;
   padding: 3px 9px;
   background: none;
   border-color: transparent;
@@ -54,11 +53,16 @@ input:focus{
 .header{
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: flex-end;
   color: black;
 }
 
-.saved{
+.save-indicator {
+  font-size: small;
+  margin-left: 10px;
+}
+
+.saved {
   color: green;
 }
 

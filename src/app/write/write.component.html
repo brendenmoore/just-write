@@ -13,9 +13,11 @@
   <div *ngIf="!isLoading && note" class="document">
 
     <div class="header">
-      <input type="text" [(ngModel)]="note.title" (keyup)="onUpdate()" placeholder="Add a Title">
-      <p *ngIf="saved" class="saved">Saved</p>
-      <p *ngIf="!saved" >Saving...</p>
+      <div>
+        <p *ngIf="saved" class="saved save-indicator">Saved</p>
+        <p *ngIf="!saved" class="save-indicator">Saving...</p>
+        <input type="text" [(ngModel)]="note.title" (keyup)="onUpdate()" placeholder="Add a Title">
+      </div>
       <h2>{{note.date | date: 'fullDate'}}</h2>
     </div>
 
