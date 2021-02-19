@@ -21,13 +21,15 @@ export class WriteComponent implements OnInit, AfterViewInit, CanComponentDeacti
   isLoading: boolean = false;
   timeout: NodeJS.Timer;
   saveCounter: number = 0;
+  textAreaHeight: number = null;
 
   @ViewChild('textarea')
   private textareaElement: ElementRef;
 
   constructor(private noteService: NoteService,
               private route: ActivatedRoute,
-              private nav: NavigationService){ }
+              private nav: NavigationService,
+              private window: Window){ }
 
   ngOnInit(): void {
     this.nav.setShowNav(false);
@@ -141,6 +143,15 @@ export class WriteComponent implements OnInit, AfterViewInit, CanComponentDeacti
         this.note.title
       ).subscribe(result => this.saved = true);
     }, 1000);
+  }
+
+  onResized(event) {
+    if (event > this.textAreaHeight && this.textAreaHeight) {
+      // console.log("time to scroll!");
+      // this.window.scrollBy(0, 100);
+      // console.log(this.textareaElement);
+    }
+    this.textAreaHeight = event;
   }
 
 }

@@ -46,7 +46,8 @@ import { MobileLandingComponent } from './mobile-landing/mobile-landing.componen
   providers: [
     {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS , useClass: ErrorInterceptor, multi: true},
-    CanDeactivateGuard
+    CanDeactivateGuard,
+    {provide: Window, useValue: window}
   ],
   bootstrap: [AppComponent]
 })

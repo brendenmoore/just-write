@@ -23,6 +23,7 @@
     autosize
     [(ngModel)]="note.content"
     (keyup)="onUpdate()"
+    (resized)="onResized($event)"
     #textarea
     placeholder="Begin writing..."></textarea>
   </div>
