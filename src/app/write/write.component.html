@@ -8,6 +8,9 @@
   <!-- <app-note-list></app-note-list> -->
 </ng-template>
 
+
+<canvas id="my-canvas" #canvas></canvas>
+
 <div class="bg-fill bg-green">
   <app-spinner *ngIf="isLoading"></app-spinner>
   <div *ngIf="!isLoading && note" class="document">
@@ -33,6 +36,7 @@
 
 
 <div class="upperRight">
+  <button (click)="victory()">Trigger Victory</button>
   <svg
     *floIfNotFullscreen
     floClickToEnterFullscreen

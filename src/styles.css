@@ -1,5 +1,5 @@
 /* global styles */
-@import 'reset.css';
+@import "reset.css";
 
 html {
   height: 100%;
@@ -20,7 +20,6 @@ app-root {
   width: 100%;
   height: 100%;
 }
-
 
 /* Layout */
 .container {
@@ -50,7 +49,7 @@ app-root {
 
 /* Design */
 .button {
-  width:200px;
+  width: 200px;
   height: 50px;
   align-self: center;
   font-size: 1.5em;
@@ -61,7 +60,7 @@ app-root {
 }
 
 .button-lg {
-  width:300px;
+  width: 300px;
   height: 75px;
   font-size: 2em;
 }
@@ -95,7 +94,6 @@ app-root {
   min-width: 400px;
 }
 
-
 /* Backgrounds */
 .bg-fill {
   height: 100%;
@@ -103,31 +101,47 @@ app-root {
 }
 
 .bg-orange {
-  background-color: #FBAB7E;
-  background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+  background-color: #fbab7e;
+  background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
 }
 
 .bg-green {
-  background-color: #85FFBD;
-  background-image: linear-gradient(45deg, #85FFBD 0%, #FFFB7D 100%);
+  background-color: #85ffbd;
+  background-image: linear-gradient(45deg, #85ffbd 0%, #fffb7d 100%);
 }
 
 .bg-blue {
-  background-color: #8BC6EC;
-  background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+  background-color: #8bc6ec;
+  background-image: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%);
 }
 
 .bg-unicorn {
-  background-color: #A9C9FF;
-  background-image: linear-gradient(180deg, #A9C9FF 0%, #FFBBEC 100%);
+  background-color: #a9c9ff;
+  background-image: linear-gradient(180deg, #a9c9ff 0%, #ffbbec 100%);
 }
 
 .bg-purple {
-  background: #9796f0;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #fbc7d4, #9796f0);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #fbc7d4, #9796f0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #9796f0; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to bottom,
+    #fbc7d4,
+    #9796f0
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #fbc7d4,
+    #9796f0
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-
-
-
+/* Canvas */
+#my-canvas {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 10;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(255, 255, 255, 0);
+  pointer-events: none;
+}

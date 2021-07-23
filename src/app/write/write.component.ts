@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationService } from '../services/navigation.service';
 import { CanComponentDeactivate } from './can-deactivate-guard.service';
 import { Observable } from 'rxjs';
+import ConfettiGenerator from 'confetti-js';
+import { timeStamp } from 'console';
 
 @Component({
   selector: 'app-write',
@@ -35,6 +37,9 @@ export class WriteComponent
 
   @ViewChild('textarea')
   private textareaElement: ElementRef;
+
+  @ViewChild('canvas')
+  private canvas: ElementRef;
 
   constructor(
     private noteService: NoteService,
@@ -178,13 +183,28 @@ export class WriteComponent
     let words: number = this.count(this.note.content);
     if (!this.goalComplete && words >= this.goal) {
       if (showAlert) {
-        alert('You did it!');
+        this.victory();
       }
       this.goalComplete = true;
     }
     if (this.goalComplete && words < this.goal) {
       this.goalComplete = false;
     }
+  }
+
+  victory() {
+    var confettiSettings = {
+      target: this.canvas.nativeElement,
+      max: 50,
+      animate: true,
+      respawn: false,
+      clock: 30,
+      props: [{ type: 'svg', src: '../../assets/images/cat.svg', size: 50 }],
+      start_from_edge: true,
+      rotate: true,
+    };
+    var confetti = new ConfettiGenerator(confettiSettings);
+    confetti.render();
   }
 
   count(string: string): number {
