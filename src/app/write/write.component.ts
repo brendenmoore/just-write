@@ -41,6 +41,9 @@ export class WriteComponent
   @ViewChild('canvas')
   private canvas: ElementRef;
 
+  @ViewChild('scrollDiv')
+  private scrollDiv: ElementRef;
+
   constructor(
     private noteService: NoteService,
     private route: ActivatedRoute,
@@ -220,9 +223,8 @@ export class WriteComponent
 
   onResized(event) {
     if (event > this.textAreaHeight && this.textAreaHeight) {
-      // console.log("time to scroll!");
-      // this.window.scrollBy(0, 100);
-      // console.log(this.textareaElement);
+      console.log("time to scroll!");
+      this.scrollDiv.nativeElement.scrollBy(0, 100);
     }
     this.textAreaHeight = event;
   }

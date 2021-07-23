@@ -11,7 +11,7 @@
 
 <canvas id="my-canvas" #canvas></canvas>
 
-<div class="bg-fill bg-green">
+<div #scrollDiv class="bg-fill bg-green">
   <app-spinner *ngIf="isLoading"></app-spinner>
   <div *ngIf="!isLoading && note" class="document">
 
