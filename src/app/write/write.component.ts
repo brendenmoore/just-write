@@ -222,8 +222,15 @@ export class WriteComponent
   }
 
   onResized(event) {
-    if (event > this.textAreaHeight && this.textAreaHeight) {
-      console.log("time to scroll!");
+    let position = this.scrollDiv.nativeElement.scrollHeight;
+    let cursor = this.textareaElement.nativeElement.selectionStart;
+    let chars = this.note.content.length;
+    if (
+      event > this.textAreaHeight &&
+      this.textAreaHeight &&
+      cursor === chars
+    ) {
+      console.log('time to scroll!');
       this.scrollDiv.nativeElement.scrollBy(0, 100);
     }
     this.textAreaHeight = event;
