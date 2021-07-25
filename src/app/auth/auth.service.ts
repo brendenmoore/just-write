@@ -123,14 +123,15 @@ export class AuthService {
       return;
     }
     const now = new Date();
-    const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+    // const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+    const expiresIn = 1;
     if (expiresIn > 0) {
       this.token = authInformation.token;
       this.isLoggedIn = true;
       this.userId = authInformation.userId;
       this.userEmail = authInformation.userEmail;
       this.authStatusListener.next(true);
-      this.setAuthTimer(expiresIn / 1000);
+      // this.setAuthTimer(expiresIn / 1000);
     }
   }
 
