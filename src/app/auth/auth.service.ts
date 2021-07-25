@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthData } from './auth-data.model';
 
-const BACKEND_URL = environment.apiURL + "user/"
+const BACKEND_URL = environment.apiURL + 'user/';
 
 @Injectable({
   providedIn: 'root',
@@ -43,11 +43,14 @@ export class AuthService {
   }
 
   getGoal() {
-    return this.http.get<{goal: number}>(BACKEND_URL + 'goal')
+    return this.http.get<{ goal: number }>(BACKEND_URL + 'goal');
   }
 
   setGoal(newGoal: number) {
-    return this.http.post<{ goal: number }>(BACKEND_URL + 'goal/' + newGoal, null)
+    return this.http.post<{ goal: number }>(
+      BACKEND_URL + 'goal/' + newGoal,
+      null
+    );
   }
 
   createUser(email: string, password: string) {
@@ -76,15 +79,18 @@ export class AuthService {
           const token = response.token;
           this.token = token;
           if (token) {
-            const expiresInDuration = response.expiresIn;
-            this.setAuthTimer(expiresInDuration);
+            const expiresInYears = response.expiresIn;
+            this.setAuthTimer(expiresInYears);
             this.isLoggedIn = true;
             this.userId = response.userId;
             this.userEmail = response.userEmail;
             this.authStatusListener.next(true);
             const now = new Date();
+            let year = now.getFullYear();
+            let month = now.getMonth();
+            let day = now.getDate();
             const expirationDate = new Date(
-              now.getTime() + expiresInDuration * 1000
+              year + expiresInYears, month, day
             );
             this.saveAuthData(
               token,
@@ -147,10 +153,10 @@ export class AuthService {
     localStorage.removeItem('userEmail');
   }
 
-  private setAuthTimer(duration: number) {
+  private setAuthTimer(years: number) {
     this.tokenTimer = setTimeout(() => {
       this.logout();
-    }, duration * 1000);
+    }, years * 365 * 24 * 60 * 1000);
   }
 
   private getAuthData() {
