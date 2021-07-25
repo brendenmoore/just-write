@@ -15,6 +15,7 @@ import { CanComponentDeactivate } from './can-deactivate-guard.service';
 import { Observable } from 'rxjs';
 import ConfettiGenerator from 'confetti-js';
 import { timeStamp } from 'console';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-write',
@@ -48,12 +49,13 @@ export class WriteComponent
     private noteService: NoteService,
     private route: ActivatedRoute,
     private nav: NavigationService,
-    private window: Window
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.nav.setShowNav(false);
     this.autoLoadNote();
+    this.getGoal();
   }
 
   ngAfterViewInit(): void {
@@ -71,6 +73,26 @@ export class WriteComponent
       );
     } else {
       return true;
+    }
+  }
+
+  getGoal() {
+    this.authService.getGoal().subscribe(result => {
+      this.goal = result.goal;
+    });
+  }
+
+  setGoal(newGoal: number) {
+    this.authService.setGoal(newGoal).subscribe(result => {
+      console.log("goal updated")
+      this.getGoal();
+    })
+  }
+
+  goalPrompt() {
+    let goal = Number(prompt("Set new words-per-day goal:"));
+    if (goal > 0) {
+      this.setGoal(goal);
     }
   }
 

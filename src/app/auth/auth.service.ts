@@ -8,7 +8,7 @@ import { AuthData } from './auth-data.model';
 const BACKEND_URL = environment.apiURL + "user/"
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private token: string;
@@ -17,8 +17,9 @@ export class AuthService {
   private tokenTimer: NodeJS.Timer;
   private userId: string;
   private userEmail: string;
+  private goal: number = 750;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   getToken() {
     return this.token;
@@ -29,7 +30,7 @@ export class AuthService {
   }
 
   getUserEmail() {
-    (this.userEmail);
+    this.userEmail;
     return this.userEmail;
   }
 
@@ -41,37 +42,63 @@ export class AuthService {
     return this.isLoggedIn;
   }
 
+  getGoal() {
+    return this.http.get<{goal: number}>(BACKEND_URL + 'goal')
+  }
+
+  setGoal(newGoal: number) {
+    return this.http.post<{ goal: number }>(BACKEND_URL + 'goal/' + newGoal, null)
+  }
+
   createUser(email: string, password: string) {
-    const authData: AuthData = {email: email, password: password};
-    this.http.post(BACKEND_URL + "signup", authData).subscribe(
-      result => {
+    const authData: AuthData = { email: email, password: password };
+    this.http.post(BACKEND_URL + 'signup', authData).subscribe(
+      (result) => {
         this.login(email, password);
-    }, error => {
-      this.authStatusListener.next(false);
-    })
+      },
+      (error) => {
+        this.authStatusListener.next(false);
+      }
+    );
   }
 
   login(email: string, password: string) {
-    const authData: AuthData = {email: email, password: password};
-    this.http.post<{token: string, expiresIn: number, userId: string, userEmail: string}>(BACKEND_URL + "login", authData)
-      .subscribe(response => {
-        const token = response.token;
-        this.token = token;
-        if (token) {
-          const expiresInDuration = response.expiresIn;
-          this.setAuthTimer(expiresInDuration);
-          this.isLoggedIn = true;
-          this.userId = response.userId;
-          this.userEmail = response.userEmail;
-          this.authStatusListener.next(true);
-          const now = new Date();
-          const expirationDate = new Date(now.getTime() + (expiresInDuration * 1000));
-          this.saveAuthData(token, expirationDate, this.userId, this.userEmail);
-          this.router.navigate(['/']);
+    const authData: AuthData = { email: email, password: password };
+    this.http
+      .post<{
+        token: string;
+        expiresIn: number;
+        userId: string;
+        userEmail: string;
+      }>(BACKEND_URL + 'login', authData)
+      .subscribe(
+        (response) => {
+          const token = response.token;
+          this.token = token;
+          if (token) {
+            const expiresInDuration = response.expiresIn;
+            this.setAuthTimer(expiresInDuration);
+            this.isLoggedIn = true;
+            this.userId = response.userId;
+            this.userEmail = response.userEmail;
+            this.authStatusListener.next(true);
+            const now = new Date();
+            const expirationDate = new Date(
+              now.getTime() + expiresInDuration * 1000
+            );
+            this.saveAuthData(
+              token,
+              expirationDate,
+              this.userId,
+              this.userEmail
+            );
+            this.router.navigate(['/']);
+          }
+        },
+        (error) => {
+          this.authStatusListener.next(false);
         }
-      }, error => {
-        this.authStatusListener.next(false);
-      })
+      );
   }
 
   logout() {
@@ -101,7 +128,12 @@ export class AuthService {
     }
   }
 
-  private saveAuthData(token: string, expirationDate: Date, userId: string, userEmail: string) {
+  private saveAuthData(
+    token: string,
+    expirationDate: Date,
+    userId: string,
+    userEmail: string
+  ) {
     localStorage.setItem('token', token);
     localStorage.setItem('userId', userId);
     localStorage.setItem('userEmail', userEmail);
@@ -109,16 +141,16 @@ export class AuthService {
   }
 
   private clearAuthData() {
-    localStorage.removeItem('token')
-    localStorage.removeItem('expiration')
-    localStorage.removeItem('userId')
-    localStorage.removeItem('userEmail')
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userEmail');
   }
 
   private setAuthTimer(duration: number) {
     this.tokenTimer = setTimeout(() => {
       this.logout();
-    }, duration * 1000)
+    }, duration * 1000);
   }
 
   private getAuthData() {
@@ -133,7 +165,7 @@ export class AuthService {
       token: token,
       expirationDate: new Date(expirationDate),
       userId: userId,
-      userEmail: userEmail
-    }
+      userEmail: userEmail,
+    };
   }
 }

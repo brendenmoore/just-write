@@ -26,6 +26,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/health", (req, res, next) => {
+  console.log("here");
+  return res.status(200).json({message: "ok"})
+})
 app.use("/api/notes", notesRoutes);
 app.use("/api/user", userRoutes);
 
