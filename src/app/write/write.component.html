@@ -51,9 +51,7 @@
 </div>
 
 <div class="lowerRight">
-  <p *ngIf="note" (click)="goalPrompt()">Goal: {{goal}}</p>
-  <p *ngIf="goalComplete">Goal complete!</p>
-  <p *ngIf="note">Words: {{note.content | wordCount}}</p>
+  <p *ngIf="note" (click)="goalPrompt()" [class.goalComplete]="goalComplete" class="goal">{{note.content | wordCount}}/{{goal}}</p>
   <!-- <p *ngIf="note">Saved: {{saved}}</p> -->
 </div>
 

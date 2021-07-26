@@ -33,7 +33,7 @@ export class WriteComponent
   timeout: NodeJS.Timer;
   saveCounter: number = 0;
   textAreaHeight: number = null;
-  goal: number = 300;
+  goal: number;
   goalComplete: boolean = false;
 
   @ViewChild('textarea')
@@ -79,6 +79,7 @@ export class WriteComponent
   getGoal() {
     this.authService.getGoal().subscribe(result => {
       this.goal = result.goal;
+      this.checkGoal()
     });
   }
 
