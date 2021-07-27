@@ -57,12 +57,11 @@ import { CallbackComponent } from './callback/callback.component';
       audience: 'http://localhost:3000/api/',
       httpInterceptor: {
         allowedList: [
-          "/api/*",
+          '*',
           {
-            uri: environment.apiURL + "*",
+            uri: environment.apiURL + '*',
             tokenOptions: {
               audience: 'http://localhost:3000/api/',
-
             },
           },
         ],

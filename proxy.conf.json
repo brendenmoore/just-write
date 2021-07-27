@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://api.justwrite.ninja/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

@@ -7,7 +7,7 @@ import { MyDate } from '../models/myDate.model';
 import {environment} from "../../environments/environment"
 import { NoteDTO } from '../models/noteDTO.model';
 
-const BACKEND_URL = environment.apiURL + 'notes'
+const BACKEND_URL = "api/notes"
 
 @Injectable({
   providedIn: 'root'

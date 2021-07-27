@@ -4,7 +4,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-const BACKEND_URL = environment.apiURL + 'user/';
+const BACKEND_URL = "api/user";
 
 @Injectable({
   providedIn: 'root',
