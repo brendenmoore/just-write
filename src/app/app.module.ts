@@ -25,6 +25,7 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { LoginButtonComponent } from './auth0/login-button/login-button.component';
 import { TestComponent } from './auth0/test/test.component';
+import { CallbackComponent } from './callback/callback.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { TestComponent } from './auth0/test/test.component';
     MobileLandingComponent,
     LoginButtonComponent,
     TestComponent,
+    CallbackComponent,
   ],
   imports: [
     BrowserModule,

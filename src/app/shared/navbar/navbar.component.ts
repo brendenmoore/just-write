@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user.service'; 
 
 
 @Component({
@@ -33,6 +33,14 @@ export class NavbarComponent implements OnInit {
    login(){
      this.authService.loginWithRedirect({
        appState: { target: '/dashboard' },
+       redirect_uri: 'http://localhost:4200/callback',
+     });
+   }
+
+   register(){
+     this.authService.loginWithRedirect({
+       screen_hint: 'signup',
+       redirect_uri: 'http://localhost:4200/callback',
      });
    }
 

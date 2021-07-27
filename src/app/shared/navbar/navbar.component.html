@@ -1,7 +1,7 @@
 <header [ngClass]="{'no-background': homeTheme}">
   <button class="brand" routerLink="/" [ngClass]="{'not-visible': homeTheme}">Just Write</button>
   <nav>
-    <!-- <button *ngIf="!loggedIn" (click)="login()">Register</button> -->
+    <button *ngIf="!loggedIn" (click)="register()">Register</button>
     <button *ngIf="!loggedIn" (click)="login()">Login</button>
     <p *ngIf="loggedIn">Logged in as {{userEmail}}</p>
     <button *ngIf="loggedIn" (click)="logout()">Logout</button>

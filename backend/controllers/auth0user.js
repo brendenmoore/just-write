@@ -5,11 +5,12 @@ const Auth0User = require("../models/auth0user");
 
 exports.createUser = (req, res, next) => {
   const existingUser = Auth0User.findById(req.user.sub).then(
-    (onFulfilled, onRejected) => {
-      onFulfilled(() => {
+    user => {
+      console.log("user thinggy: ", user)
+      if(user) {
         res.sendStatus(200);
-      });
-      onRejected(() => {
+      }
+      else {
         const user = new Auth0User({
           _id: req.user.sub,
           goal: 750,
@@ -28,7 +29,7 @@ exports.createUser = (req, res, next) => {
               error: err,
             });
           });
-      });
+      };
     }
   );
 };
