@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
   }
 
    logout(){
-     this.authService.logout()
+     this.authService.logout({returnTo: "https://write.bmoore.dev"})
    }
 
    login(){
