@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { UserService } from 'src/app/services/user.service'; 
-
+import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavbarComponent implements OnInit {
 
+  redirectURL = environment.baseURL + "/callback"
   loggedIn: boolean = false;
   isLanding: boolean = false;
   userEmail: string = '';
@@ -33,14 +34,14 @@ export class NavbarComponent implements OnInit {
    login(){
      this.authService.loginWithRedirect({
        appState: { target: '/dashboard' },
-       redirect_uri: 'http://localhost:4200/callback',
+       redirect_uri: this.redirectURL
      });
    }
 
    register(){
      this.authService.loginWithRedirect({
        screen_hint: 'signup',
-       redirect_uri: 'http://localhost:4200/callback',
+       redirect_uri: this.redirectURL
      });
    }
 
