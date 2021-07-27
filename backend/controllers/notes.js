@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/auth0user');
 const Note = require('../models/note');
 
 exports.createNote = (req, res, next) => {
@@ -6,12 +6,9 @@ exports.createNote = (req, res, next) => {
     content: req.body.content,
     title: req.body.title,
     date: req.body.date,
-    creator: req.userData.userId
+    creator: req.user.sub
   });
   note.save().then(createdNote => {
-    User.findByIdAndUpdate(req.userData.userId, {last: createdNote._id}).then(result => {
-      console.log('saved recent note: ' + createdNote._id);
-    })
     res.status(201).json({
       note: createdNote,
       noteId: createdNote._id,
@@ -20,7 +17,7 @@ exports.createNote = (req, res, next) => {
   })
   .catch(error => {
     res.status(500).json({
-      message: "Creating a note failed"
+      message: "Creating a note failed: " + error
     })
   });
 }
@@ -32,7 +29,7 @@ exports.updateNote = (req, res, next) => {
     content: req.body.content,
     date: req.body.date
   });
-  Note.updateOne({_id: req.params.id, creator: req.userData.userId }, note).then(result => {
+  Note.updateOne({_id: req.params.id, creator: req.user.sub }, note).then(result => {
     if (result.n > 0) {
       res.status(200).json({message: "Updated Note"});
     }
@@ -49,7 +46,7 @@ exports.updateNote = (req, res, next) => {
 exports.fetchNotes = (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const noteQuery = Note.find( {creator: req.userData.userId} );
+  const noteQuery = Note.find( {creator: req.user.sub} );
   let fetchedNotes;
   if (pageSize && currentPage) {
     noteQuery
@@ -60,7 +57,7 @@ exports.fetchNotes = (req, res, next) => {
   noteQuery
     .then(documents => {
       fetchedNotes = documents;
-      return Note.count({creator: req.userData.userId});
+      return Note.count({creator: req.user.sub});
     })
     .then(count => {
       res.status(200).json({
@@ -77,7 +74,7 @@ exports.fetchNotes = (req, res, next) => {
 }
 
 exports.getNoteById = (req, res, next) => {
-  Note.findOne({_id: req.params.id, creator: req.userData.userId}).then(note => {
+  Note.findOne({_id: req.params.id, creator: req.user.sub}).then(note => {
     if (note) {
       res.status(200).json(note);
     } else {
@@ -92,7 +89,7 @@ exports.getNoteById = (req, res, next) => {
 }
 
 exports.deleteNote = (req, res, next) => {
-  Note.deleteOne({_id: req.params.id, creator: req.userData.userId}).then(result => {
+  Note.deleteOne({_id: req.params.id, creator: req.user.sub}).then(result => {
     if (result.n > 0) {
       res.status(200).json({message: "Deleted Note"});
     } else {

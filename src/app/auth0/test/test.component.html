@@ -1,0 +1,11 @@
+<p>test works!</p>
+<app-login-button></app-login-button>
+<p *ngIf="auth.isAuthenticated$ | async">you're logged in!</p>
+<button *ngIf="auth.isAuthenticated$ | async" (click)="auth.logout()">
+  Log out
+</button>
+<button (click)="test.getTest()">Test thinggy</button>
+<div *ngIf="auth.user$ | async as user">
+  <p>{{ user.name }}</p>
+  <p>{{ user.email }}</p>
+</div>

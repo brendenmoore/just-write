@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
+import { UserService } from 'src/app/services/user.service';
+
 
 @Component({
   selector: 'app-navbar',
@@ -13,18 +15,25 @@ export class NavbarComponent implements OnInit {
   userEmail: string = '';
   @Input() homeTheme: boolean = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.loggedIn = this.authService.getIsLoggedIn();
-    this.authService.getAuthStatusListener().subscribe(result => {
+    this.authService.isAuthenticated$.subscribe(result => {
       this.loggedIn = result;
     });
-    this.userEmail = this.authService.getUserEmail();
+    this.authService.user$.subscribe(user => {
+      this.userEmail = user.email
+    });
   }
 
    logout(){
      this.authService.logout()
+   }
+
+   login(){
+     this.authService.loginWithRedirect({
+       appState: { target: '/dashboard' },
+     });
    }
 
 }

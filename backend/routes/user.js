@@ -1,16 +1,21 @@
-const express = require('express');
+const express = require("express");
 
-const UserController = require("../controllers/user");
-const checkAuth = require("../middleware/check-auth");
+const UserController = require("../controllers/auth0user");
+const jwtCheck = require("../middleware/jwt-check");
 
 const router = express.Router();
 
-router.post("/signup", UserController.createUser);
+router.get("/goal", jwtCheck, UserController.getGoal);
 
-router.post("/login", UserController.userLogin);
+router.get("/", jwtCheck, UserController.getUser)
 
-router.get("/goal", checkAuth, UserController.getGoal);
+router.post("/register", jwtCheck, UserController.createUser)
 
-router.post("/goal/:goal", checkAuth, UserController.setGoal)
+router.post("/goal/:goal", jwtCheck, UserController.setGoal);
+
+router.get("/testAuth0", jwtCheck, (req, res, next) => {
+  console.log(req.user.sub);
+  res.send({ message: "Secured Resource" });
+});
 
 module.exports = router;

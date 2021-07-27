@@ -2,11 +2,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  Inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+
 import { NoteService } from '../services/note.service';
 import { Note } from '../models/note.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,8 +13,8 @@ import { NavigationService } from '../services/navigation.service';
 import { CanComponentDeactivate } from './can-deactivate-guard.service';
 import { Observable } from 'rxjs';
 import ConfettiGenerator from 'confetti-js';
-import { timeStamp } from 'console';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-write',
@@ -49,7 +48,7 @@ export class WriteComponent
     private noteService: NoteService,
     private route: ActivatedRoute,
     private nav: NavigationService,
-    private authService: AuthService
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -77,14 +76,14 @@ export class WriteComponent
   }
 
   getGoal() {
-    this.authService.getGoal().subscribe(result => {
+    this.userService.getGoal().subscribe(result => {
       this.goal = result.goal;
       this.checkGoal()
     });
   }
 
   setGoal(newGoal: number) {
-    this.authService.setGoal(newGoal).subscribe(result => {
+    this.userService.setGoal(newGoal).subscribe(result => {
       console.log("goal updated")
       this.getGoal();
     })

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-
+import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
@@ -20,6 +20,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { FloFullscreenModule } from '@flosportsinc/ng-fullscreen';
 import { MobileLandingComponent } from './mobile-landing/mobile-landing.component';
+// Auth0
+import { AuthModule } from '@auth0/auth0-angular';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { LoginButtonComponent } from './auth0/login-button/login-button.component';
+import { TestComponent } from './auth0/test/test.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +38,8 @@ import { MobileLandingComponent } from './mobile-landing/mobile-landing.componen
     DashboardComponent,
     HomeComponent,
     MobileLandingComponent,
+    LoginButtonComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,14 +48,32 @@ import { MobileLandingComponent } from './mobile-landing/mobile-landing.componen
     FormsModule,
     HttpClientModule,
     SharedModule,
-    FloFullscreenModule
+    FloFullscreenModule,
+    AuthModule.forRoot({
+      domain: 'justwrite.us.auth0.com',
+      clientId: 'C2sKcYrHtWvyb6XckjOIXk31fo6XDTlM',
+      audience: 'http://localhost:3000/api/',
+      httpInterceptor: {
+        allowedList: [
+          "/api/*",
+          {
+            uri: environment.apiURL + "*",
+            tokenOptions: {
+              audience: 'http://localhost:3000/api/',
+
+            },
+          },
+        ],
+      },
+    }),
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS , useClass: ErrorInterceptor, multi: true},
+    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     CanDeactivateGuard,
-    {provide: Window, useValue: window}
+    { provide: Window, useValue: window },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
