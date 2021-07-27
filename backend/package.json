@@ -8,6 +8,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.13",
     "mongoose-unique-validator": "^2.0.3",
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^2.4.3",
+    "express-jwt": "^6.0.0",
+    "jwks-rsa": "^2.0.4"
   }
 }
