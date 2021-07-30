@@ -71,7 +71,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "just-write:build:production"
+              "browserTarget": "just-write:build:production",
+              "proxyConfig": "proxy.conf.json"
             }
           }
         },
