@@ -1,0 +1,17 @@
+<p>test works!</p>
+<ul>
+  <li class="text" *ngFor="let item of items | async">
+    <p>{{ item.name }}</p>
+    <input type="text" [(ngModel)]="item.name" (keyup)="onUpdate(item)"/>
+  </li>
+</ul>
+<button (click)="addItem()">Add Test Item</button>
+<br>
+<div *ngIf="auth.user | async as user; else showLogin">
+  <h1>Hello {{ user.displayName }}!</h1>
+  <button (click)="logout()">Logout</button>
+</div>
+<ng-template #showLogin>
+  <p>Please login.</p>
+  <button (click)="login()">Login with Google</button>
+</ng-template>

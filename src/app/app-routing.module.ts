@@ -7,11 +7,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { LandingComponent } from './landing/landing.component';
 import { NoteListComponent } from './note-list/note-list.component';
+import { TestComponent } from './test/test.component';
 import { CanDeactivateGuard } from './write/can-deactivate-guard.service';
 import { WriteComponent } from './write/write.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
+  {path: "test", component: TestComponent},
   {path: "dashboard", component: HomeComponent, canActivate: [AuthGuard]},
   {path: "write", component: WriteComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard]},
   {path: "auth", loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)}
