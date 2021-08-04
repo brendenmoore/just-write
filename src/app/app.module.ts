@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
@@ -20,12 +20,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { FloFullscreenModule } from '@flosportsinc/ng-fullscreen';
 import { MobileLandingComponent } from './mobile-landing/mobile-landing.component';
-// Auth0
-import { AuthModule } from '@auth0/auth0-angular';
-import { AuthHttpInterceptor } from '@auth0/auth0-angular';
-import { LoginButtonComponent } from './auth0/login-button/login-button.component';
-import { TestComponent } from './auth0/test/test.component';
-import { CallbackComponent } from './callback/callback.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { TestComponent } from './test/test.component';
+import {AngularFireAuthModule } from '@angular/fire/auth'
 
 @NgModule({
   declarations: [
@@ -39,9 +37,7 @@ import { CallbackComponent } from './callback/callback.component';
     DashboardComponent,
     HomeComponent,
     MobileLandingComponent,
-    LoginButtonComponent,
     TestComponent,
-    CallbackComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,27 +47,14 @@ import { CallbackComponent } from './callback/callback.component';
     HttpClientModule,
     SharedModule,
     FloFullscreenModule,
-    AuthModule.forRoot({
-      domain: 'justwrite.us.auth0.com',
-      clientId: 'C2sKcYrHtWvyb6XckjOIXk31fo6XDTlM',
-      audience: 'http://localhost:3000/api/',
-      httpInterceptor: {
-        allowedList: [
-          '*',
-          {
-            uri: environment.apiURL + '*',
-            tokenOptions: {
-              audience: 'http://localhost:3000/api/',
-            },
-          },
-        ],
-      },
-    }),
-  ],
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule
+    ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    // {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},
+    // {provide: HTTP_INTERCEPTORS , useClass: ErrorInterceptor, multi: true},
+
     CanDeactivateGuard,
     { provide: Window, useValue: window },
   ],

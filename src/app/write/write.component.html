@@ -21,7 +21,7 @@
         <p *ngIf="!saved" class="save-indicator">Saving...</p>
         <input type="text" [(ngModel)]="note.title" (keyup)="onUpdate()" placeholder="Add a Title">
       </div>
-      <h2>{{note.date | date: 'fullDate'}}</h2>
+      <h2>{{note.date.toDate() | date: 'fullDate'}}</h2>
     </div>
 
     <textarea

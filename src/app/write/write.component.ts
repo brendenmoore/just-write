@@ -5,7 +5,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-
 import { NoteService } from '../services/note.service';
 import { Note } from '../models/note.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,8 +12,7 @@ import { NavigationService } from '../services/navigation.service';
 import { CanComponentDeactivate } from './can-deactivate-guard.service';
 import { Observable } from 'rxjs';
 import ConfettiGenerator from 'confetti-js';
-import { AuthService } from '@auth0/auth0-angular';
-import { UserService } from '../services/user.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-write',
@@ -76,21 +74,21 @@ export class WriteComponent
   }
 
   getGoal() {
-    this.userService.getGoal().subscribe(result => {
-      this.goal = result.goal;
-      this.checkGoal()
+    this.authService.getGoal().subscribe((result) => {
+      this.goal = result.data().goal
+      this.checkGoal();
     });
   }
 
   setGoal(newGoal: number) {
-    this.userService.setGoal(newGoal).subscribe(result => {
-      console.log("goal updated")
+    this.authService.setGoal(newGoal).then((result) => {
+      console.log('goal updated');
       this.getGoal();
-    })
+    });
   }
 
   goalPrompt() {
-    let goal = Number(prompt("Set new words-per-day goal:"));
+    let goal = Number(prompt('Set new words-per-day goal:'));
     if (goal > 0) {
       this.setGoal(goal);
     }
@@ -114,33 +112,34 @@ export class WriteComponent
   }
 
   private loadTodaysNote(): void {
-    this.noteService.getMostRecentNote().subscribe(
-      (response) => {
-        console.log(response);
-        const recentNote = response.notes[0];
-        if (!recentNote) {
+    this.noteService
+      .getMostRecentNote()
+      .valueChanges({ idField: 'id' })
+      .subscribe(
+        (notes) => {
+          console.log(notes);
+          const recentNote = notes[0];
+          if (!recentNote) {
+            this.createNewNote();
+            return;
+          }
+          if (this.isToday(recentNote.date.toDate())) {
+            this.note = {
+              id: recentNote.id,
+              title: recentNote.title,
+              date: recentNote.date,
+              content: recentNote.content,
+            };
+            this.saved = true;
+            this.isLoading = false;
+          } else {
+            this.createNewNote();
+          }
+        },
+        (error) => {
           this.createNewNote();
-          return;
         }
-        if (this.isToday(new Date(recentNote.date))) {
-          this.note = {
-            id: recentNote._id,
-            title: recentNote.title,
-            dateCreated: recentNote.dateCreated,
-            date: new Date(recentNote.date),
-            content: recentNote.content,
-            creator: recentNote.creator,
-          };
-          this.saved = true;
-          this.isLoading = false;
-        } else {
-          this.createNewNote();
-        }
-      },
-      (error) => {
-        this.createNewNote();
-      }
-    );
+      );
   }
 
   private createNewNote(): void {
@@ -163,12 +162,10 @@ export class WriteComponent
     this.noteService.getNoteById(id).subscribe(
       (noteData) => {
         this.note = {
-          id: noteData._id,
+          id: noteData.id,
           title: noteData.title,
-          dateCreated: noteData.dateCreated,
-          date: new Date(noteData.date),
+          date: noteData.date,
           content: noteData.content,
-          creator: noteData.creator,
         };
         this.saved = true;
         this.isLoading = false;
@@ -191,13 +188,11 @@ export class WriteComponent
       this.noteService
         .updateNote(
           this.note.id,
-          this.note.dateCreated,
           this.note.date,
           this.note.content,
-          this.note.creator,
           this.note.title
         )
-        .subscribe((result) => {
+        .then((result) => {
           this.saved = true;
           this.checkGoal();
         });

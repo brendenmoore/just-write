@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "justwrite-dd5cc": {
+      "hosting": {
+        "just-write": [
+          "justwrite-dd5cc"
+        ]
+      }
+    }
+  }
+}
