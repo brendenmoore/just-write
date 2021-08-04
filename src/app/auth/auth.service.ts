@@ -45,17 +45,18 @@ export class AuthService {
   }
 
   getGoal() {
-    //TODO
     // return this.http.get<{ goal: number }>(BACKEND_URL + 'goal');
-    
+
+    console.log(this.userId)
+    return this.store.doc<{goal: number, notes: any[]}>("users/" + this.userId).get();
   }
 
   setGoal(newGoal: number) {
-    //TODO
     // return this.http.post<{ goal: number }>(
     //   BACKEND_URL + 'goal/' + newGoal,
     //   null
     // );
+    return this.store.doc("users/" + this.userId).update({goal: newGoal})
   }
 
   createUser(email: string, password: string) {
@@ -69,6 +70,7 @@ export class AuthService {
     //   }
     // );
     this.auth.createUserWithEmailAndPassword(email, password).then(result => {
+      this.store.collection("users").doc(result.user.uid).set({goal: 750})
       this.login(email, password);
     }, error => {
       this.authStatusListener.next(false);

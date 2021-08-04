@@ -62,10 +62,10 @@ export class NoteListComponent implements OnInit, OnDestroy {
     if (!note.title) {
       note.title = "Unnamed Note"
     }
-    let isConfirmed = confirm("Are you sure you want to delete " + note.title + " from " + note.date.toDateString() + "?")
+    let isConfirmed = confirm("Are you sure you want to delete " + note.title + " from " + note.date.toDate().toDateString() + "?")
     if(isConfirmed) {
       this.isLoading = true;
-      this.noteService.deleteNote(note.id).subscribe(() => {
+      this.noteService.deleteNote(note.id).then(() => {
         this.noteService.getNotes(this.notesPerPage, this.currentPage);
       });
     }
