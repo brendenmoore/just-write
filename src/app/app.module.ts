@@ -54,9 +54,10 @@ import {AngularFireAuthModule } from '@angular/fire/auth'
   providers: [
     // {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},
     // {provide: HTTP_INTERCEPTORS , useClass: ErrorInterceptor, multi: true},
+
     CanDeactivateGuard,
-    {provide: Window, useValue: window}
+    { provide: Window, useValue: window },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

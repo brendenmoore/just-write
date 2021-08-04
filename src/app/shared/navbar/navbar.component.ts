@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
+import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -8,23 +10,39 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
+  redirectURL = environment.baseURL + "/callback"
   loggedIn: boolean = false;
   isLanding: boolean = false;
   userEmail: string = '';
   @Input() homeTheme: boolean = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.loggedIn = this.authService.getIsLoggedIn();
-    this.authService.getAuthStatusListener().subscribe(result => {
+    this.authService.isAuthenticated$.subscribe(result => {
       this.loggedIn = result;
     });
-    this.userEmail = this.authService.getUserEmail();
+    this.authService.user$.subscribe(user => {
+      this.userEmail = user.email
+    });
   }
 
    logout(){
-     this.authService.logout()
+     this.authService.logout({returnTo: "https://write.bmoore.dev"})
+   }
+
+   login(){
+     this.authService.loginWithRedirect({
+       appState: { target: '/dashboard' },
+       redirect_uri: this.redirectURL
+     });
+   }
+
+   register(){
+     this.authService.loginWithRedirect({
+       screen_hint: 'signup',
+       redirect_uri: this.redirectURL
+     });
    }
 
 }

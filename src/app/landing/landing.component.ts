@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -23,9 +23,8 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.randomizeBackground();
-    this.loggedIn = this.authService.getIsLoggedIn();
     this.authListenerSubs = this.authService
-      .getAuthStatusListener()
+      .isAuthenticated$
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });

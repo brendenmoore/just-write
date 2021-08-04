@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "http://nodejustwrite-env.eba-a7mmipyg.us-east-2.elasticbeanstalk.com/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

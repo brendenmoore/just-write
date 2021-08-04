@@ -21,7 +21,12 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "_redirects",
+                "input": "src",
+                "output": "/"
+              }
             ],
             "styles": [
               "src/styles.css"
@@ -61,11 +66,13 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "just-write:build"
+            "browserTarget": "just-write:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "just-write:build:production"
+              "browserTarget": "just-write:build:production",
+              "proxyConfig": "proxy.conf.json"
             }
           }
         },

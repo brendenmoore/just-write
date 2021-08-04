@@ -46,7 +46,7 @@ export class WriteComponent
     private noteService: NoteService,
     private route: ActivatedRoute,
     private nav: NavigationService,
-    private authService: AuthService
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {

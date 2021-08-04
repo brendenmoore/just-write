@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   isAuth: boolean = false;
   isMobile: boolean = false;
   authStatusSub: Subscription;
@@ -15,15 +15,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.isAuth = this.authService.getIsLoggedIn();
-    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(response => {
-      this.isAuth = response;
+    this.authService.isAuthenticated$.subscribe(result => {
+      this.isAuth = result;
     });
     this.isMobile = (window.innerWidth < 768);
-  }
-
-  ngOnDestroy(): void {
-    this.authStatusSub.unsubscribe();
   }
 
 }

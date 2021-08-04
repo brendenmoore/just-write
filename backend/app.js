@@ -7,7 +7,7 @@ const userRoutes = require("./routes/user");
 
 const app = express();
 
-mongoose.connect("mongodb+srv://brendenm17:" + process.env.MONGO_ATLAS_PW + "@cluster0.c6jzx.mongodb.net/justwrite?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://brendenm17:" + process.env.MONGO_ATLAS_PW + "@cluster0.c6jzx.mongodb.net/justwrite2?retryWrites=true&w=majority")
   .then(() => {
     console.log("connected to database!")
   })
