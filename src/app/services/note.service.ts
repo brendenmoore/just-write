@@ -39,7 +39,7 @@ export class NoteService {
     this.store
       .collection<Note>("users/" + this.authService.getUserId + '/notes', (ref) =>
         ref
-          .orderBy('date')
+          .orderBy('date', "desc")
           .startAt(currentPage * notesPerPage)
           .limit(notesPerPage)
       )
