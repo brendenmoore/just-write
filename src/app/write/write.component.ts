@@ -163,9 +163,9 @@ export class WriteComponent
       (noteData) => {
         this.note = {
           id: noteData.id,
-          title: noteData.title,
-          date: noteData.date,
-          content: noteData.content,
+          title: noteData.data().title,
+          date: noteData.data().date,
+          content: noteData.data().content,
         };
         this.saved = true;
         this.isLoading = false;

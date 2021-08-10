@@ -90,7 +90,7 @@ export class NoteService {
     // return this.http.get<NoteDTO>(BACKEND_URL + "/" + noteId);
     return this.store
       .doc<Note>("users/" + this.authService.getUserId + '/notes/' + noteId)
-      .valueChanges({idField: "id"});
+      .get();
   }
 
   getNoteUpdateListener() {
