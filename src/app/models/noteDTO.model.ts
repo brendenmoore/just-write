@@ -1,6 +1,8 @@
+import firebase from 'firebase';
+
 export interface NoteDTO {
   id: string;
   content: string;
   title?: string;
-  date: number;
+  date: firebase.firestore.Timestamp;
 }

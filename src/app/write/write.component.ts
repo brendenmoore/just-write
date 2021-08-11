@@ -185,12 +185,13 @@ export class WriteComponent
     this.saved = false;
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
+      let title = this.note.title || "";
       this.noteService
         .updateNote(
           this.note.id,
           this.note.date,
           this.note.content,
-          this.note.title
+          title
         )
         .then((result) => {
           this.saved = true;

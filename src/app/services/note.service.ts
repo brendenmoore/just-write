@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 import { NoteDTO } from '../models/noteDTO.model';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from '../auth/auth.service';
-import firebase from 'firebase'
+import firebase from 'firebase';
 
 const BACKEND_URL = environment.apiURL + 'notes';
 
@@ -37,19 +37,21 @@ export class NoteService {
 
   getNotes(notesPerPage: number, currentPage: number) {
     this.store
-      .collection<Note>("users/" + this.authService.getUserId + '/notes', (ref) =>
-        ref
-          .orderBy('date', "desc")
-          .startAt(currentPage * notesPerPage)
-          .limit(notesPerPage)
+      .collection<Note>(
+        'users/' + this.authService.getUserId + '/notes',
+        (ref) =>
+          ref
+            .orderBy('timestamp', 'desc')
+            // .startAt(currentPage * notesPerPage)
+            // .limit(notesPerPage)
       )
       .valueChanges({ idField: 'id' })
-      .subscribe(notes => {
+      .subscribe((notes) => {
         this.notes = notes;
         this.notesUpdated.next({
           notes: [...this.notes],
-          noteCount: 1
-        })
+          noteCount: 1,
+        });
       });
     // const queryParams = `?pagesize=${notesPerPage}&page=${currentPage}`;
     // this.http.get<{message: string, notes: any, maxNotes: number}>(BACKEND_URL + queryParams)
@@ -75,10 +77,9 @@ export class NoteService {
   }
 
   getMostRecentNote() {
-    return this.store.collection<Note>("users/" + this.authService.getUserId + '/notes', (ref) =>
-      ref
-        .orderBy('date')
-        .limit(1)
+    return this.store.collection<Note>(
+      'users/' + this.authService.getUserId + '/notes',
+      (ref) => ref.orderBy('date', 'desc').limit(1)
     );
     // const queryParams = '?pagesize=1&page=1';
     // return this.http.get<{ message: string; notes: NoteDTO; maxNotes: number }>(
@@ -89,7 +90,7 @@ export class NoteService {
   getNoteById(noteId: string) {
     // return this.http.get<NoteDTO>(BACKEND_URL + "/" + noteId);
     return this.store
-      .doc<Note>("users/" + this.authService.getUserId + '/notes/' + noteId)
+      .doc<Note>('users/' + this.authService.getUserId + '/notes/' + noteId)
       .get();
   }
 
@@ -99,7 +100,12 @@ export class NoteService {
 
   addNote(): Observable<Note> {
     const date = firebase.firestore.Timestamp.now();
-    const noteDTO: Note = { id: '', date: date, content: '' };
+    const noteDTO: Note = {
+      id: '',
+      date: date,
+      timestamp: date.toMillis(),
+      content: '',
+    };
     const newNoteSubject = new Subject<Note>();
     // this.http.post<{message: string, noteId: string, note: NoteDTO}>(BACKEND_URL, noteDTO)
     //   .subscribe(responseData => {
@@ -108,7 +114,7 @@ export class NoteService {
     //     newNoteSubject.next({...newNote})
     //   });
     this.store
-      .collection<Note>("users/" + this.authService.getUserId + '/notes')
+      .collection<Note>('users/' + this.authService.getUserId + '/notes')
       .add(noteDTO)
       .then((response) => {
         const id = response.id;
@@ -116,16 +122,19 @@ export class NoteService {
           const newNote: Note = {
             id: id,
             date: note.data().date,
+            timestamp: note.data().timestamp,
             content: note.data().content,
           };
           newNoteSubject.next({ ...newNote });
         });
       });
-      return newNoteSubject.asObservable();
+    return newNoteSubject.asObservable();
   }
 
   deleteNote(noteId: string) {
-    return this.store.doc("users/" + this.authService.getUserId + '/notes/' + noteId).delete();
+    return this.store
+      .doc('users/' + this.authService.getUserId + '/notes/' + noteId)
+      .delete();
     // return this.http.delete(BACKEND_URL + '/' + noteId);
   }
 
@@ -133,7 +142,7 @@ export class NoteService {
     noteId: string,
     date: firebase.firestore.Timestamp,
     content: string,
-    title?: string
+    title?: string,
   ) {
     const note: Note = {
       id: noteId,
@@ -142,6 +151,8 @@ export class NoteService {
       content: content,
     };
     // return this.http.put(BACKEND_URL + '/' + noteId, note);
-    return this.store.doc("users/" + this.authService.getUserId + '/notes/' + noteId).update(note);
+    return this.store
+      .doc('users/' + this.authService.getUserId + '/notes/' + noteId)
+      .update(note);
   }
 }

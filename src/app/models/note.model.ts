@@ -6,4 +6,5 @@ export interface Note {
   content: string;
   title?: string;
   date: firebase.firestore.Timestamp;
+  timestamp?: number;
 }
